@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.beesham.shopifymerchantstore.BuildConfig;
 import com.beesham.shopifymerchantstore.R;
 import com.beesham.shopifymerchantstore.model.Product;
 import com.beesham.shopifymerchantstore.model.ProductsList;
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         ShopifyApiEndpoints shopifyApiEndpoints =
                 ProductServiceGenerator.createService(ShopifyApiEndpoints.class);
-        Call<ProductsList> call = shopifyApiEndpoints.getProducts("1", "xxxx");
+        Call<ProductsList> call = shopifyApiEndpoints.getProducts("1", BuildConfig.SHOPIFY_ACCESS_TOKEN);
 
         call.enqueue(new Callback<ProductsList>() {
             @Override
