@@ -9,10 +9,10 @@ public class Image_ {
 
     @SerializedName("id")
     @Expose
-    private int id;
+    private long id;
     @SerializedName("product_id")
     @Expose
-    private int productId;
+    private long productId;
     @SerializedName("position")
     @Expose
     private int position;
@@ -35,7 +35,7 @@ public class Image_ {
     @Expose
     private List<Object> variantIds = null;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -43,7 +43,7 @@ public class Image_ {
         this.id = id;
     }
 
-    public int getProductId() {
+    public long getProductId() {
         return productId;
     }
 

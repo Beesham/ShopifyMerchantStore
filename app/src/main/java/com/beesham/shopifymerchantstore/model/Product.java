@@ -9,7 +9,7 @@ public class Product {
 
     @SerializedName("id")
     @Expose
-    private int id;
+    private long id;
     @SerializedName("title")
     @Expose
     private String title;
@@ -56,11 +56,11 @@ public class Product {
     @Expose
     private Image_ image;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

@@ -38,13 +38,13 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<ProductsList>() {
             @Override
             public void onResponse(Call<ProductsList> call, Response<ProductsList> response) {
-                Log.i(LOG_TAG,"Call Successfull");
+                Log.i(LOG_TAG,"Call Successfull" + response.body().getProducts().size());
 
             }
 
             @Override
             public void onFailure(Call<ProductsList> call, Throwable t) {
-                Log.i(LOG_TAG,"Call failed");
+                Log.d(LOG_TAG,"Call failed" + t.getMessage());
             }
         });
     }

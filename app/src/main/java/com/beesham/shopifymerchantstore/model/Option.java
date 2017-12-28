@@ -9,10 +9,10 @@ public class Option {
 
     @SerializedName("id")
     @Expose
-    private int id;
+    private long id;
     @SerializedName("product_id")
     @Expose
-    private int productId;
+    private long productId;
     @SerializedName("name")
     @Expose
     private String name;
@@ -23,19 +23,19 @@ public class Option {
     @Expose
     private List<String> values = null;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public int getProductId() {
+    public long getProductId() {
         return productId;
     }
 
-    public void setProductId(int productId) {
+    public void setProductId(long productId) {
         this.productId = productId;
     }
 

@@ -8,10 +8,10 @@ public class Variant {
 
     @SerializedName("id")
     @Expose
-    private int id;
+    private long id;
     @SerializedName("product_id")
     @Expose
-    private int productId;
+    private long productId;
     @SerializedName("title")
     @Expose
     private String title;
@@ -74,7 +74,7 @@ public class Variant {
     private String weightUnit;
     @SerializedName("inventory_item_id")
     @Expose
-    private int inventoryItemId;
+    private long inventoryItemId;
     @SerializedName("old_inventory_quantity")
     @Expose
     private int oldInventoryQuantity;
@@ -82,19 +82,19 @@ public class Variant {
     @Expose
     private boolean requiresShipping;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public int getProductId() {
+    public long getProductId() {
         return productId;
     }
 
-    public void setProductId(int productId) {
+    public void setProductId(long productId) {
         this.productId = productId;
     }
 
@@ -258,11 +258,11 @@ public class Variant {
         this.weightUnit = weightUnit;
     }
 
-    public int getInventoryItemId() {
+    public long getInventoryItemId() {
         return inventoryItemId;
     }
 
-    public void setInventoryItemId(int inventoryItemId) {
+    public void setInventoryItemId(long inventoryItemId) {
         this.inventoryItemId = inventoryItemId;
     }
 
