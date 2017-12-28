@@ -27,6 +27,11 @@ public class ProductServiceGenerator {
     private static HttpLoggingInterceptor logging = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
 
     public static <S> S createService(Class<S> serviceClass) {
+        client = client.newBuilder()
+                .addInterceptor(logging)
+                .build();
+        retrofitBuilder = retrofit.newBuilder();
+        retrofit = retrofitBuilder.client(client).build();
         return retrofit.create(serviceClass);
     }
 
@@ -36,7 +41,7 @@ public class ProductServiceGenerator {
 
             if(!client.interceptors().contains(interceptor)){
                 client = client.newBuilder()
-                        //.addInterceptor(interceptor)
+                        .addInterceptor(interceptor)
                         .addInterceptor(logging)
                         .build();
                 retrofitBuilder = retrofit.newBuilder();

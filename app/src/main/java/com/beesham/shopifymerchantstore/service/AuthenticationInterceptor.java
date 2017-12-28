@@ -31,7 +31,7 @@ public class AuthenticationInterceptor implements Interceptor{
              any old Authorization header values, which we want to do.
             */
             original = original.newBuilder()
-                    .addHeader("access_token", authToken).build();
+                    .addHeader("Authorization", authToken).build();
         }
 
         //String url = original.url().toString();

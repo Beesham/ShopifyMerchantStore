@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private void doServiceCall(){
 
         ShopifyApiEndpoints shopifyApiEndpoints =
-                ProductServiceGenerator.createService(ShopifyApiEndpoints.class,"xxxx");
-        Call<ProductsList> call = shopifyApiEndpoints.getProducts("1", "xxxxx");
+                ProductServiceGenerator.createService(ShopifyApiEndpoints.class);
+        Call<ProductsList> call = shopifyApiEndpoints.getProducts("1", "xxxx");
 
         call.enqueue(new Callback<ProductsList>() {
             @Override
