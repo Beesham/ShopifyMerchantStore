@@ -1,5 +1,7 @@
 package com.beesham.shopifymerchantstore.service;
 
+import android.util.Log;
+
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -12,6 +14,7 @@ import okhttp3.Response;
 
 public class AuthenticationInterceptor implements Interceptor{
 
+    private static final String LOG_TAG = AuthenticationInterceptor.class.getSimpleName();
     private String authToken;
 
     public AuthenticationInterceptor(String authToken) {
@@ -28,8 +31,11 @@ public class AuthenticationInterceptor implements Interceptor{
              any old Authorization header values, which we want to do.
             */
             original = original.newBuilder()
-                    .header("Authorization", authToken).build();
+                    .addHeader("access_token", authToken).build();
         }
+
+        //String url = original.url().toString();
+       // Log.d(LOG_TAG, url);
         return chain.proceed(original);
     }
 }

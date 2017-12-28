@@ -3,6 +3,7 @@ package com.beesham.shopifymerchantstore.service;
 import android.text.TextUtils;
 
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -22,17 +23,28 @@ public class ProductServiceGenerator {
 
     private static Retrofit retrofit = retrofitBuilder.build();
 
+    //Logs the response
+    private static HttpLoggingInterceptor logging = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
+
+    public static <S> S createService(Class<S> serviceClass) {
+        return retrofit.create(serviceClass);
+    }
+
     public static <S> S createService(Class<S> serviceClass, final String authToken) {
         if(!TextUtils.isEmpty(authToken)) {
             AuthenticationInterceptor interceptor = new AuthenticationInterceptor(authToken);
 
             if(!client.interceptors().contains(interceptor)){
-                client = client.newBuilder().addInterceptor(interceptor).build();
+                client = client.newBuilder()
+                        //.addInterceptor(interceptor)
+                        .addInterceptor(logging)
+                        .build();
                 retrofitBuilder = retrofit.newBuilder();
                 retrofit = retrofitBuilder.client(client).build();
             }
         }
 
+        retrofit.toString();
         return retrofit.create(serviceClass);
     }
 
