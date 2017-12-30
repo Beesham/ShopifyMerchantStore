@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<ProductsList>() {
             @Override
             public void onResponse(Call<ProductsList> call, Response<ProductsList> response) {
-                Log.i(LOG_TAG,"Call Successfull" + response.body().getProducts().size());
+                Log.i(LOG_TAG,"Call Successfull" + response.body().getProducts().get(0).getTitle());
 
             }
 
