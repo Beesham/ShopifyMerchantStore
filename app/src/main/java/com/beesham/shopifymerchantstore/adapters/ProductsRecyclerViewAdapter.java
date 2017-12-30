@@ -1,6 +1,7 @@
 package com.beesham.shopifymerchantstore.adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.view.ViewGroup;
 
 /**
@@ -8,6 +9,20 @@ import android.view.ViewGroup;
  */
 
 public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter {
+
+    public class ProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        public ProductViewHolder(View itemView) {
+            super(itemView);
+        }
+
+        @Override
+        public void onClick(View view) {
+            //TODO: launch details view of product
+        }
+    }
+
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return null;
