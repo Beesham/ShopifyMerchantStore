@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.squareup.picasso.Picasso;
 
 public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<ProductsRecyclerViewAdapter.ProductViewHolder> {
 
+    private static final String LOG_TAG = ProductsRecyclerViewAdapter.class.getSimpleName();
     private Cursor mCursor;
     private Context mContext;
 
@@ -42,7 +44,7 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<ProductsRe
         @Override
         public void onClick(View view) {
             //TODO: launch details view of product
-            Toast.makeText(mContext, "Cheers!", Toast.LENGTH_SHORT);
+            Toast.makeText(mContext, "Cheers!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -67,13 +69,11 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<ProductsRe
     public void onBindViewHolder(ProductViewHolder holder, int position) {
         mCursor.moveToPosition(position);
 
-        if(!TextUtils.isEmpty(mCursor.getString(mCursor.getColumnIndex(Columns.ProductColumns.IMAGE_URL)))) {
-            String imageSrc = mCursor.getString(mCursor.getColumnIndex(Columns.ProductColumns.IMAGE_URL));
-            Picasso.with(mContext)
-                    .load(imageSrc)
-                    .placeholder(R.mipmap.ic_launcher)
-                    .into(holder.mImageView);
-        }
+        String imageSrc = mCursor.getString(mCursor.getColumnIndex(Columns.ProductColumns.IMAGE_URL));
+        Picasso.with(mContext)
+                .load(imageSrc)
+                .placeholder(R.mipmap.ic_launcher)
+                .into(holder.mImageView);
 
         holder.mTitleView.setText(mCursor.getString(mCursor.getColumnIndex(Columns.ProductColumns.TITLE)));
         //holder.mTitleView.setText(mCursor.getString(mCursor.getColumnIndex(Columns.ProductColumns.)));

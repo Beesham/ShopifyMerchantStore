@@ -31,7 +31,7 @@ public class ProductUtils {
             contentValues.put(Columns.ProductColumns.TAGS, product.getTags());
             contentValues.put(Columns.ProductColumns.VENDOR, product.getVendor());
             contentValues.put(Columns.ProductColumns.IMAGE_URL, product.getImage().getSrc());
-
+            
             contentValuesVector.add(contentValues);
         }
 
@@ -48,8 +48,6 @@ public class ProductUtils {
             contentValuesVector.toArray(contentValuesArray);
             inserted = context.getContentResolver().bulkInsert(ProductProvider.Product.CONTENT_URI, contentValuesArray);
         }
-
-        Log.i(LOG_TAG, "Rows inserted: " + inserted);
     }
 
 }
