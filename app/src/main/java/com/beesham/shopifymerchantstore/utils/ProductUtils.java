@@ -31,7 +31,8 @@ public class ProductUtils {
             contentValues.put(Columns.ProductColumns.TAGS, product.getTags());
             contentValues.put(Columns.ProductColumns.VENDOR, product.getVendor());
             contentValues.put(Columns.ProductColumns.IMAGE_URL, product.getImage().getSrc());
-            
+            contentValues.put(Columns.ProductColumns.DESCRIPTION, product.getBodyHtml());
+
             contentValuesVector.add(contentValues);
         }
 

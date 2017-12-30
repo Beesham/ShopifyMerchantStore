@@ -103,7 +103,8 @@ public class ProductFragment extends Fragment implements LoaderManager.LoaderCal
         final String[] projections = {
                 Columns.ProductColumns.PRODUCT_ID,
                 Columns.ProductColumns.TITLE,
-                Columns.ProductColumns.IMAGE_URL
+                Columns.ProductColumns.IMAGE_URL,
+                Columns.ProductColumns.DESCRIPTION
         };
 
         return new CursorLoader(

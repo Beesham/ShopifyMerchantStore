@@ -33,6 +33,9 @@ public class Columns {
         @DataType(DataType.Type.TEXT)
         public static final String IMAGE_URL = "image_url";
 
+        @DataType(DataType.Type.TEXT)
+        public static final String DESCRIPTION = "description";
+
     }
 
     public static class VariantColumns {

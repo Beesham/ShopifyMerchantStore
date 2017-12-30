@@ -76,8 +76,7 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<ProductsRe
                 .into(holder.mImageView);
 
         holder.mTitleView.setText(mCursor.getString(mCursor.getColumnIndex(Columns.ProductColumns.TITLE)));
-        //holder.mTitleView.setText(mCursor.getString(mCursor.getColumnIndex(Columns.ProductColumns.)));
-        //TODO: description
+        holder.mDescriptionView.setText(mCursor.getString(mCursor.getColumnIndex(Columns.ProductColumns.DESCRIPTION)));
     }
 
     @Override
