@@ -30,7 +30,7 @@
                     android:paddingStart="@dimen/title_padding"
                     android:paddingLeft="@dimen/title_padding"
                     android:paddingEnd="@dimen/title_padding"
-                    android:id="@+id/beer_name_text_view"
+                    android:id="@+id/product_title_text_view"
                     android:gravity="center_vertical"
                     android:fontFamily="roboto-regular"
                     android:textSize="@dimen/title_text_size"
@@ -43,6 +43,7 @@
                     app:srcCompat="@mipmap/ic_launcher"/>
 
             <TextView
+                    android:id="@+id/product_description_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:text="Description text here"

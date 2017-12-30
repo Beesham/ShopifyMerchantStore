@@ -34,6 +34,9 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<ProductsRe
         public ProductViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
+            mTitleView = itemView.findViewById(R.id.product_title_text_view);
+            mImageView = itemView.findViewById(R.id.product_image_image_view);
+            mDescriptionView = itemView.findViewById(R.id.product_description_text_view);
         }
 
         @Override
@@ -56,7 +59,7 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<ProductsRe
 
             return new ProductViewHolder(view);
         }else{
-            throw new RuntimeException("Not bount to RecyclerViewSelection");
+            throw new RuntimeException("Not bound to RecyclerViewSelection");
         }
     }
 
