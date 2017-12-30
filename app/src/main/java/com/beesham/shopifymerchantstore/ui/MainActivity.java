@@ -10,6 +10,7 @@ import com.beesham.shopifymerchantstore.model.Product;
 import com.beesham.shopifymerchantstore.model.ProductsList;
 import com.beesham.shopifymerchantstore.service.ProductServiceGenerator;
 import com.beesham.shopifymerchantstore.service.ShopifyApiEndpoints;
+import com.beesham.shopifymerchantstore.utils.ProductUtils;
 
 import java.util.List;
 
@@ -38,8 +39,8 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<ProductsList>() {
             @Override
             public void onResponse(Call<ProductsList> call, Response<ProductsList> response) {
-                Log.i(LOG_TAG,"Call Successfull" + response.body().getProducts().get(0).getTitle());
-
+                Log.i(LOG_TAG,"Call Successfull: size : " + response.body().getProducts().size());
+                ProductUtils.logProducts(MainActivity.this, ProductUtils.prepareForCaching(response.body()));
             }
 
             @Override

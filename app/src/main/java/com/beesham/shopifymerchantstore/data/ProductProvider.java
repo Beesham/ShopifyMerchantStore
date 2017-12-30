@@ -14,7 +14,7 @@ import net.simonvt.schematic.annotation.TableEndpoint;
 @ContentProvider(authority = ProductProvider.AUTHORITY, database = ProductDatabase.class)
 public final class ProductProvider {
 
-    public static final String AUTHORITY = "com.beesham.shopifymerchantstore.ProductProvider";
+    public static final String AUTHORITY = "com.beesham.shopifymerchantstore.data.ProductProvider";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://"+AUTHORITY);
 
     interface Path{

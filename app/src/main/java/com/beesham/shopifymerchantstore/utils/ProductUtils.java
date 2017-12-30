@@ -2,6 +2,7 @@ package com.beesham.shopifymerchantstore.utils;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.util.Log;
 
 import com.beesham.shopifymerchantstore.data.Columns;
 import com.beesham.shopifymerchantstore.data.ProductProvider;
@@ -16,8 +17,10 @@ import java.util.Vector;
 
 public class ProductUtils {
 
+    private static final String LOG_TAG = ProductUtils.class.getSimpleName();
+
     public static Vector<ContentValues> prepareForCaching(ProductsList productsList) {
-        
+
         Vector<ContentValues> contentValuesVector = new Vector<>(productsList.getProducts().size());
 
         //Converts the data in the productsList to contentValues in order for caching in database
@@ -37,8 +40,16 @@ public class ProductUtils {
         return contentValuesVector;
     }
 
-    public static void logProducts(Context context, ContentValues contentValues) {
-        context.getContentResolver().insert(ProductProvider.Product.CONTENT_URI, contentValues);
+    public static void logProducts(Context context, Vector<ContentValues> contentValuesVector) {
+        int inserted = 0;
+
+        if(contentValuesVector.size() > 0){
+            ContentValues[] contentValuesArray = new ContentValues[contentValuesVector.size()];
+            contentValuesVector.toArray(contentValuesArray);
+            inserted = context.getContentResolver().bulkInsert(ProductProvider.Product.CONTENT_URI, contentValuesArray);
+        }
+
+        Log.i(LOG_TAG, "Rows inserted: " + inserted);
     }
 
 }

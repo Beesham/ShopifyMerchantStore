@@ -74,6 +74,6 @@ public class Columns {
         public static final String PRODUCT_ID = "product_id";
 
         @DataType(DataType.Type.TEXT)
-        public static final String VALUES = "values";
+        public static final String VALUES = "options_values";
     }
 }
