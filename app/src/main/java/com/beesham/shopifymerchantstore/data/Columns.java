@@ -1,9 +1,11 @@
 package com.beesham.shopifymerchantstore.data;
 
 import net.simonvt.schematic.annotation.AutoIncrement;
+import net.simonvt.schematic.annotation.ConflictResolutionType;
 import net.simonvt.schematic.annotation.DataType;
 import net.simonvt.schematic.annotation.NotNull;
 import net.simonvt.schematic.annotation.PrimaryKey;
+import net.simonvt.schematic.annotation.Unique;
 
 /**
  * Created by Beesham on 12/27/2017.
@@ -18,6 +20,7 @@ public class Columns {
         public static final String _ID = "_id";
 
         @DataType(DataType.Type.INTEGER)
+        @Unique(onConflict = ConflictResolutionType.IGNORE)
         @NotNull
         public static final String PRODUCT_ID = "product_id";
 
