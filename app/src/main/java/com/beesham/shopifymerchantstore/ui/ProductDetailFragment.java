@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,8 @@ import android.widget.TextView;
 
 import com.beesham.shopifymerchantstore.BuildConfig;
 import com.beesham.shopifymerchantstore.R;
+import com.beesham.shopifymerchantstore.adapters.ProductsRecyclerViewAdapter;
+import com.beesham.shopifymerchantstore.adapters.VariantsRecyclerViewAdapter;
 import com.beesham.shopifymerchantstore.model.Product;
 import com.beesham.shopifymerchantstore.model.ProductsList;
 import com.beesham.shopifymerchantstore.model.SingleProduct;
@@ -47,8 +51,9 @@ public class ProductDetailFragment extends Fragment {
     private ImageView mProductImageView;
     private TextView mProductTitle;
     private TextView mProductDescription;
-    private TextView mProductVariants;
 
+    private RecyclerView mRecyclerView;
+    private VariantsRecyclerViewAdapter mAdapter;
 
 
     private OnFragmentInteractionListener mListener;
@@ -90,6 +95,13 @@ public class ProductDetailFragment extends Fragment {
         mProductTitle = view.findViewById(R.id.product_title_text_view);
         mProductDescription = view.findViewById(R.id.product_description_text_view);
 
+        mRecyclerView = view.findViewById(R.id.variants_recycler_view);
+        mAdapter = new VariantsRecyclerViewAdapter();
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setAdapter(mAdapter);
+
         // Inflate the layout for this fragment
         return view;
     }
@@ -122,6 +134,8 @@ public class ProductDetailFragment extends Fragment {
 
         mProductTitle.setText(mProduct.getTitle());
         mProductDescription.setText(mProduct.getBodyHtml());
+
+        mAdapter.swapList(mProduct.getVariants());
     }
 
     // TODO: Rename method, update argument and hook method into UI event
