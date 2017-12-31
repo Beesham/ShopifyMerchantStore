@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.beesham.shopifymerchantstore.BuildConfig;
 import com.beesham.shopifymerchantstore.R;
@@ -42,7 +43,13 @@ public class ProductDetailFragment extends Fragment {
     private String mProductId;
 
     private Product mProduct;
+
     private ImageView mProductImageView;
+    private TextView mProductTitle;
+    private TextView mProductDescription;
+    private TextView mProductVariants;
+
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -79,7 +86,9 @@ public class ProductDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         final View view = inflater.inflate(R.layout.fragment_product_detail, container, false);
-        mProductImageView = (ImageView) view.findViewById(R.id.product_image_image_view);
+        mProductImageView = view.findViewById(R.id.product_image_image_view);
+        mProductTitle = view.findViewById(R.id.product_title_text_view);
+        mProductDescription = view.findViewById(R.id.product_description_text_view);
 
         // Inflate the layout for this fragment
         return view;
@@ -95,10 +104,7 @@ public class ProductDetailFragment extends Fragment {
             @Override
             public void onResponse(Call<SingleProduct> call, Response<SingleProduct> response) {
                 mProduct = response.body().getProduct();
-                Picasso.with(getContext())
-                        .load(mProduct.getImage().getSrc())
-                        .placeholder(R.mipmap.ic_launcher)
-                        .into(mProductImageView);
+                setDetails();
             }
 
             @Override
@@ -106,6 +112,16 @@ public class ProductDetailFragment extends Fragment {
                 Log.d(LOG_TAG,"Call failed" + t.getMessage());
             }
         });
+    }
+
+    private void setDetails() {
+        Picasso.with(getContext())
+                .load(mProduct.getImage().getSrc())
+                .placeholder(R.mipmap.ic_launcher)
+                .into(mProductImageView);
+
+        mProductTitle.setText(mProduct.getTitle());
+        mProductDescription.setText(mProduct.getBodyHtml());
     }
 
     // TODO: Rename method, update argument and hook method into UI event
