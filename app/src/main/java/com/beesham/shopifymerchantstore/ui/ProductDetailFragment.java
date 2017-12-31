@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.beesham.shopifymerchantstore.BuildConfig;
 import com.beesham.shopifymerchantstore.R;
@@ -17,6 +18,7 @@ import com.beesham.shopifymerchantstore.model.SingleProduct;
 import com.beesham.shopifymerchantstore.service.ProductServiceGenerator;
 import com.beesham.shopifymerchantstore.service.ShopifyApiEndpoints;
 import com.beesham.shopifymerchantstore.utils.ProductUtils;
+import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,6 +42,7 @@ public class ProductDetailFragment extends Fragment {
     private String mProductId;
 
     private Product mProduct;
+    private ImageView mProductImageView;
 
     private OnFragmentInteractionListener mListener;
 
@@ -74,8 +77,12 @@ public class ProductDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        final View view = inflater.inflate(R.layout.fragment_product_detail, container, false);
+        mProductImageView = (ImageView) view.findViewById(R.id.product_image_image_view);
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_product_detail, container, false);
+        return view;
     }
 
     private void doServiceCall(){
@@ -88,6 +95,10 @@ public class ProductDetailFragment extends Fragment {
             @Override
             public void onResponse(Call<SingleProduct> call, Response<SingleProduct> response) {
                 mProduct = response.body().getProduct();
+                Picasso.with(getContext())
+                        .load(mProduct.getImage().getSrc())
+                        .placeholder(R.mipmap.ic_launcher)
+                        .into(mProductImageView);
             }
 
             @Override
