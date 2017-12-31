@@ -5,4 +5,10 @@
     <string name="description_header">Description</string>
     <string name="variants_header">Variants</string>
 
+    <!--Menu -->
+    <string name="menu_settings">Settings</string>
+    <string name="menu_search">Search</string>
+
+
+
 </resources>

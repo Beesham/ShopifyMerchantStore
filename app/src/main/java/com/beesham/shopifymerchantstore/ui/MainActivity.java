@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.Toast;
 
 import com.beesham.shopifymerchantstore.BuildConfig;
@@ -73,5 +75,12 @@ public class MainActivity extends AppCompatActivity implements ProductsRecyclerV
                 .replace(R.id.fragment_container, ProductDetailFragment.newInstance(productId))
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return true;
     }
 }
