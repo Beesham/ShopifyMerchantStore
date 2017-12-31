@@ -1,12 +1,15 @@
 package com.beesham.shopifymerchantstore.ui;
 
+import android.app.FragmentManager;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.beesham.shopifymerchantstore.BuildConfig;
 import com.beesham.shopifymerchantstore.R;
+import com.beesham.shopifymerchantstore.adapters.ProductsRecyclerViewAdapter;
 import com.beesham.shopifymerchantstore.model.Product;
 import com.beesham.shopifymerchantstore.model.ProductsList;
 import com.beesham.shopifymerchantstore.service.ProductServiceGenerator;
@@ -19,9 +22,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements ProductFragment.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements ProductsRecyclerViewAdapter.OnItemClickListener {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
+
+    private static android.support.v4.app.FragmentManager mFragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +39,9 @@ public class MainActivity extends AppCompatActivity implements ProductFragment.O
             if(savedInstanceState != null) return;
 
             ProductFragment productFragment = ProductFragment.newInstance();
-            getSupportFragmentManager().beginTransaction()
+
+            mFragmentManager = getSupportFragmentManager();
+            mFragmentManager.beginTransaction()
                     .add(R.id.fragment_container, productFragment)
                     .commit();
         }
@@ -49,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements ProductFragment.O
         call.enqueue(new Callback<ProductsList>() {
             @Override
             public void onResponse(Call<ProductsList> call, Response<ProductsList> response) {
-                Log.i(LOG_TAG,"Call Successfull: size : " + response.body().getProducts().size());
                 ProductUtils.logProducts(MainActivity.this, ProductUtils.prepareForCaching(response.body()));
             }
 
@@ -61,7 +67,10 @@ public class MainActivity extends AppCompatActivity implements ProductFragment.O
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
-
+    public void OnItemClick() {
+        mFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, new ProductDetailFragment())
+                .addToBackStack(null)
+                .commit();
     }
 }

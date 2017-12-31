@@ -2,16 +2,12 @@ package com.beesham.shopifymerchantstore.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.beesham.shopifymerchantstore.R;
 import com.beesham.shopifymerchantstore.data.Columns;
@@ -26,6 +22,12 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<ProductsRe
     private static final String LOG_TAG = ProductsRecyclerViewAdapter.class.getSimpleName();
     private Cursor mCursor;
     private Context mContext;
+
+    private OnItemClickListener mItemClickedListener;
+
+    public interface OnItemClickListener {
+        void OnItemClick();
+    }
 
     public class ProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -43,13 +45,13 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<ProductsRe
 
         @Override
         public void onClick(View view) {
-            //TODO: launch details view of product
-            Toast.makeText(mContext, "Cheers!", Toast.LENGTH_SHORT).show();
+            mItemClickedListener.OnItemClick();
         }
     }
 
     public ProductsRecyclerViewAdapter(Context mContext) {
         this.mContext = mContext;
+        mItemClickedListener = (OnItemClickListener) mContext;
     }
 
     @Override
