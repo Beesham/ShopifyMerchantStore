@@ -49,7 +49,6 @@ public class ProductServiceGenerator {
             }
         }
 
-        retrofit.toString();
         return retrofit.create(serviceClass);
     }
 

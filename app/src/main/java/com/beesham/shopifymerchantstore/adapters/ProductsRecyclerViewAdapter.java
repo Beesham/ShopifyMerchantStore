@@ -26,7 +26,7 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<ProductsRe
     private OnItemClickListener mItemClickedListener;
 
     public interface OnItemClickListener {
-        void OnItemClick();
+        void OnItemClick(String productId);
     }
 
     public class ProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -45,7 +45,8 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<ProductsRe
 
         @Override
         public void onClick(View view) {
-            mItemClickedListener.OnItemClick();
+            mCursor.moveToPosition(getPosition());
+            mItemClickedListener.OnItemClick(mCursor.getString(mCursor.getColumnIndex(Columns.ProductColumns.PRODUCT_ID)));
         }
     }
 

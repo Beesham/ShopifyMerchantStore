@@ -67,9 +67,9 @@ public class MainActivity extends AppCompatActivity implements ProductsRecyclerV
     }
 
     @Override
-    public void OnItemClick() {
+    public void OnItemClick(String productId) {
         mFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, new ProductDetailFragment())
+                .replace(R.id.fragment_container, ProductDetailFragment.newInstance(productId))
                 .addToBackStack(null)
                 .commit();
     }

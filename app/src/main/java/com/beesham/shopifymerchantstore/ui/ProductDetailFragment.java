@@ -4,11 +4,23 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.beesham.shopifymerchantstore.BuildConfig;
 import com.beesham.shopifymerchantstore.R;
+import com.beesham.shopifymerchantstore.model.Product;
+import com.beesham.shopifymerchantstore.model.ProductsList;
+import com.beesham.shopifymerchantstore.model.SingleProduct;
+import com.beesham.shopifymerchantstore.service.ProductServiceGenerator;
+import com.beesham.shopifymerchantstore.service.ShopifyApiEndpoints;
+import com.beesham.shopifymerchantstore.utils.ProductUtils;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,14 +31,15 @@ import com.beesham.shopifymerchantstore.R;
  * create an instance of this fragment.
  */
 public class ProductDetailFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private static final String LOG_TAG = ProductDetailFragment.class.getSimpleName();
+
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PRODUCT_ID = "product_id";
+
+    private String mProductId;
+
+    private Product mProduct;
 
     private OnFragmentInteractionListener mListener;
 
@@ -38,16 +51,13 @@ public class ProductDetailFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param productId
      * @return A new instance of fragment ProductDetailFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static ProductDetailFragment newInstance(String param1, String param2) {
+    public static ProductDetailFragment newInstance(String productId) {
         ProductDetailFragment fragment = new ProductDetailFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_PRODUCT_ID, productId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,8 +66,8 @@ public class ProductDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mProductId = getArguments().getString(ARG_PRODUCT_ID);
+            doServiceCall();
         }
     }
 
@@ -66,6 +76,25 @@ public class ProductDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_product_detail, container, false);
+    }
+
+    private void doServiceCall(){
+
+        ShopifyApiEndpoints shopifyApiEndpoints =
+                ProductServiceGenerator.createService(ShopifyApiEndpoints.class);
+        Call<SingleProduct> call = shopifyApiEndpoints.getSingleProduct(mProductId, BuildConfig.SHOPIFY_ACCESS_TOKEN);
+
+        call.enqueue(new Callback<SingleProduct>() {
+            @Override
+            public void onResponse(Call<SingleProduct> call, Response<SingleProduct> response) {
+                mProduct = response.body().getProduct();
+            }
+
+            @Override
+            public void onFailure(Call<SingleProduct> call, Throwable t) {
+                Log.d(LOG_TAG,"Call failed" + t.getMessage());
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event
