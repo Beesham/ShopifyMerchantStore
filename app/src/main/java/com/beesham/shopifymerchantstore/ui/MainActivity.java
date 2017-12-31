@@ -1,5 +1,6 @@
 package com.beesham.shopifymerchantstore.ui;
 
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,7 +19,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ProductFragment.OnFragmentInteractionListener{
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
@@ -28,6 +29,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         doServiceCall();
+
+        if(findViewById(R.id.fragment_container) != null) {
+            if(savedInstanceState != null) return;
+
+            ProductFragment productFragment = ProductFragment.newInstance();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, productFragment)
+                    .commit();
+        }
     }
 
     private void doServiceCall(){
@@ -48,5 +58,10 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(LOG_TAG,"Call failed" + t.getMessage());
             }
         });
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
