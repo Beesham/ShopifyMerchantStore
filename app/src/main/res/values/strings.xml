@@ -5,6 +5,8 @@
     <string name="description_header">Description</string>
     <string name="variants_header">Variants</string>
 
+    <string name="search_hint">Filter products</string>
+
     <!--Menu -->
     <string name="menu_settings">Settings</string>
     <string name="menu_search">Search</string>

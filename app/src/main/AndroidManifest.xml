@@ -19,11 +19,16 @@
             </intent-filter>
         </activity>
 
+        <!--Content Provider-->
         <provider
                 android:authorities="com.beesham.shopifymerchantstore.data.ProductProvider"
                 android:name=".data.generated.ProductProvider"
                 android:enabled="true"
                 android:exported="false"/>
+
+        <!--Search meta data-->
+        <meta-data android:name="android.app.searchable"
+                   android:resource="@xml/searchable" />
 
     </application>
 
