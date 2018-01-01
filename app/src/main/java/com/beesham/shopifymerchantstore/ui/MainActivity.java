@@ -3,6 +3,7 @@ package com.beesham.shopifymerchantstore.ui;
 import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -51,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements ProductsRecyclerV
                     .add(R.id.fragment_container, productFragment)
                     .commit();
         }
+
+        handleIntent(getIntent());
     }
 
     private void doServiceCall(){
@@ -93,5 +96,19 @@ public class MainActivity extends AppCompatActivity implements ProductsRecyclerV
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
         return true;
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            Log.i(LOG_TAG, "search query: " + query);
+            //use the query to search your data somehow
+        }
     }
 }
