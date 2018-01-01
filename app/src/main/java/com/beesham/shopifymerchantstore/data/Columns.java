@@ -39,6 +39,9 @@ public class Columns {
         @DataType(DataType.Type.TEXT)
         public static final String DESCRIPTION = "description";
 
+        @DataType(DataType.Type.TEXT)
+        public static final String PRODUCT_TYPE = "product_type";
+
     }
 
     public static class VariantColumns {
