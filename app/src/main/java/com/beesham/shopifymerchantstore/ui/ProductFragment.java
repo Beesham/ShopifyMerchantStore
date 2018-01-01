@@ -148,7 +148,6 @@ public class ProductFragment extends Fragment implements LoaderManager.LoaderCal
                 if(mFilters.contains(Filters.FILTER_BY_TITLE)) {
                     return new CursorLoader(
                             getContext(),
-                            //ProductProvider.Product.withTitle(mSearchQuery),
                             ProductProvider.Product.CONTENT_URI,
                             projections,
                             "title like ?",
@@ -158,7 +157,6 @@ public class ProductFragment extends Fragment implements LoaderManager.LoaderCal
                 }else if(mFilters.contains(Filters.FILTER_BY_VENDOR)) {
                     return new CursorLoader(
                             getContext(),
-                            //ProductProvider.Product.withTitle(mSearchQuery),
                             ProductProvider.Product.CONTENT_URI,
                             projections,
                             "vendor like ?",
@@ -168,7 +166,6 @@ public class ProductFragment extends Fragment implements LoaderManager.LoaderCal
                 }else if(mFilters.contains(Filters.FILTER_BY_TYPE)) {
                     return new CursorLoader(
                             getContext(),
-                            //ProductProvider.Product.withTitle(mSearchQuery),
                             ProductProvider.Product.CONTENT_URI,
                             projections,
                             "product_type like ?",

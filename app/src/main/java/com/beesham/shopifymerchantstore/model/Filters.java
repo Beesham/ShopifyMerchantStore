@@ -5,7 +5,7 @@ package com.beesham.shopifymerchantstore.model;
  */
 
 public class Filters {
-    public static int FILTER_BY_TITLE = 1;
-    public static int FILTER_BY_VENDOR = 2;
-    public static int FILTER_BY_TYPE = 3;
+    public static int FILTER_BY_TITLE = 0;
+    public static int FILTER_BY_VENDOR = 1;
+    public static int FILTER_BY_TYPE = 2;
 }
