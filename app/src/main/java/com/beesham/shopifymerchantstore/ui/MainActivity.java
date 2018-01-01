@@ -3,8 +3,10 @@ package com.beesham.shopifymerchantstore.ui;
 import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
@@ -23,6 +25,7 @@ import com.beesham.shopifymerchantstore.service.ProductServiceGenerator;
 import com.beesham.shopifymerchantstore.service.ShopifyApiEndpoints;
 import com.beesham.shopifymerchantstore.utils.ProductUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -109,6 +112,42 @@ public class MainActivity extends AppCompatActivity implements ProductsRecyclerV
             String query = intent.getStringExtra(SearchManager.QUERY);
             Log.i(LOG_TAG, "search query: " + query);
             //use the query to search your data somehow
+            showFilterDialog();
         }
+    }
+
+    private void showFilterDialog() {
+        final CharSequence[] filters = {"Title", "Vendor", "Type"};
+        final ArrayList selectedItems = new ArrayList<>();
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.dialog_title))
+                .setMultiChoiceItems(filters, null, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int indexSelected, boolean isChecked) {
+                        if (isChecked) {
+                            // If the user checked the item, add it to the selected items
+                            selectedItems.add(indexSelected);
+                        } else if (selectedItems.contains(indexSelected)) {
+                            // Else, if the item is already in the array, remove it
+                            selectedItems.remove(Integer.valueOf(indexSelected));
+                        }
+                    }
+                })
+                .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .create();
+
+        dialog.show();
     }
 }
