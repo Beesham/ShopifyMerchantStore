@@ -15,14 +15,11 @@ import android.widget.TextView;
 
 import com.beesham.shopifymerchantstore.BuildConfig;
 import com.beesham.shopifymerchantstore.R;
-import com.beesham.shopifymerchantstore.adapters.ProductsRecyclerViewAdapter;
 import com.beesham.shopifymerchantstore.adapters.VariantsRecyclerViewAdapter;
 import com.beesham.shopifymerchantstore.model.Product;
-import com.beesham.shopifymerchantstore.model.ProductsList;
 import com.beesham.shopifymerchantstore.model.SingleProduct;
 import com.beesham.shopifymerchantstore.service.ProductServiceGenerator;
 import com.beesham.shopifymerchantstore.service.ShopifyApiEndpoints;
-import com.beesham.shopifymerchantstore.utils.ProductUtils;
 import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
@@ -106,8 +103,10 @@ public class ProductDetailFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Gets data from server for the specific item
+     */
     private void doServiceCall(){
-
         ShopifyApiEndpoints shopifyApiEndpoints =
                 ProductServiceGenerator.createService(ShopifyApiEndpoints.class);
         Call<SingleProduct> call = shopifyApiEndpoints.getSingleProduct(mProductId, BuildConfig.SHOPIFY_ACCESS_TOKEN);
@@ -126,6 +125,9 @@ public class ProductDetailFragment extends Fragment {
         });
     }
 
+    /**
+     * Sets the appropriate details field for the item
+     */
     private void setDetails() {
         Picasso.with(getContext())
                 .load(mProduct.getImage().getSrc())
@@ -136,13 +138,6 @@ public class ProductDetailFragment extends Fragment {
         mProductDescription.setText(mProduct.getBodyHtml());
 
         mAdapter.swapList(mProduct.getVariants());
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override

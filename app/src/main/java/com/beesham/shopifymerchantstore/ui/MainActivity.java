@@ -1,11 +1,9 @@
 package com.beesham.shopifymerchantstore.ui;
 
-import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,19 +12,16 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.widget.Toast;
 
 import com.beesham.shopifymerchantstore.BuildConfig;
 import com.beesham.shopifymerchantstore.R;
 import com.beesham.shopifymerchantstore.adapters.ProductsRecyclerViewAdapter;
-import com.beesham.shopifymerchantstore.model.Product;
 import com.beesham.shopifymerchantstore.model.ProductsList;
 import com.beesham.shopifymerchantstore.service.ProductServiceGenerator;
 import com.beesham.shopifymerchantstore.service.ShopifyApiEndpoints;
 import com.beesham.shopifymerchantstore.utils.ProductUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -59,8 +54,10 @@ public class MainActivity extends AppCompatActivity implements ProductsRecyclerV
         handleIntent(getIntent());
     }
 
+    /**
+     * Gets data from server and caches it into sqlite database
+     */
     private void doServiceCall(){
-
         ShopifyApiEndpoints shopifyApiEndpoints =
                 ProductServiceGenerator.createService(ShopifyApiEndpoints.class);
         Call<ProductsList> call = shopifyApiEndpoints.getProducts("1", BuildConfig.SHOPIFY_ACCESS_TOKEN);
@@ -68,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements ProductsRecyclerV
         call.enqueue(new Callback<ProductsList>() {
             @Override
             public void onResponse(Call<ProductsList> call, Response<ProductsList> response) {
+                //Caches the data in database
                 ProductUtils.logProducts(MainActivity.this, ProductUtils.prepareForCaching(response.body()));
             }
 
@@ -106,16 +104,24 @@ public class MainActivity extends AppCompatActivity implements ProductsRecyclerV
         handleIntent(intent);
     }
 
+    /**
+     * Handles search intent from the search bar
+     * @param intent
+     */
     private void handleIntent(Intent intent) {
 
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY).trim();
-            Log.i(LOG_TAG, "search query: " + query);
+
             //use the query to search your data somehow
             showFilterDialog(query);
         }
     }
 
+    /**
+     * Displays an alert dialog to filter the search query by specific fields
+     * @param query
+     */
     private void showFilterDialog(final String query) {
         final CharSequence[] filters = {"Title", "Vendor", "Type"};
         final ArrayList selectedItems = new ArrayList<>();
@@ -137,7 +143,6 @@ public class MainActivity extends AppCompatActivity implements ProductsRecyclerV
                 .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        //TODO
                         mFragmentManager.beginTransaction()
                                 .addToBackStack("main")
                                 .replace(R.id.fragment_container, ProductFragment.newInstance(selectedItems, query))

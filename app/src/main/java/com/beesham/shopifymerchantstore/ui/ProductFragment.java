@@ -43,9 +43,9 @@ public class ProductFragment extends Fragment implements LoaderManager.LoaderCal
     private static final int PRODUCT_LOADER_NO_FILTERS = 0;
     private static final int PRODUCT_LOADER_WITH_FILTERS = 1;
 
+    //Bundle argument keys
     private static final String ARGS_KEY_FILTER = "filters";
     private static final String ARGS_KEY_QUERY = "query";
-
 
     private ArrayList mFilters;
     private String mSearchQuery;
@@ -100,21 +100,11 @@ public class ProductFragment extends Fragment implements LoaderManager.LoaderCal
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
-        } else {
-           /* throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");*/
         }
     }
 
@@ -200,7 +190,6 @@ public class ProductFragment extends Fragment implements LoaderManager.LoaderCal
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }
