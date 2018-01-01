@@ -109,14 +109,14 @@ public class MainActivity extends AppCompatActivity implements ProductsRecyclerV
     private void handleIntent(Intent intent) {
 
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
+            String query = intent.getStringExtra(SearchManager.QUERY).trim();
             Log.i(LOG_TAG, "search query: " + query);
             //use the query to search your data somehow
-            showFilterDialog();
+            showFilterDialog(query);
         }
     }
 
-    private void showFilterDialog() {
+    private void showFilterDialog(final String query) {
         final CharSequence[] filters = {"Title", "Vendor", "Type"};
         final ArrayList selectedItems = new ArrayList<>();
 
@@ -137,13 +137,17 @@ public class MainActivity extends AppCompatActivity implements ProductsRecyclerV
                 .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        
+                        //TODO
+                        mFragmentManager.beginTransaction()
+                                .addToBackStack("main")
+                                .replace(R.id.fragment_container, ProductFragment.newInstance(selectedItems, query))
+                                .commit();
                     }
                 })
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        //Do nothing
                     }
                 })
                 .create();

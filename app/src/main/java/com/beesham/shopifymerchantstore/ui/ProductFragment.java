@@ -11,6 +11,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,9 @@ import com.beesham.shopifymerchantstore.R;
 import com.beesham.shopifymerchantstore.adapters.ProductsRecyclerViewAdapter;
 import com.beesham.shopifymerchantstore.data.Columns;
 import com.beesham.shopifymerchantstore.data.ProductProvider;
+import com.beesham.shopifymerchantstore.model.Filters;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,20 +34,37 @@ import com.beesham.shopifymerchantstore.data.ProductProvider;
  */
 public class ProductFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
+    private static final String LOG_TAG = ProductFragment.class.getSimpleName();
+
     private OnFragmentInteractionListener mListener;
     private RecyclerView mRecyclerView;
     private ProductsRecyclerViewAdapter mAdapter;
 
-    private static final int PRODUCT_LOADER = 0;
+    private static final int PRODUCT_LOADER_NO_FILTERS = 0;
+    private static final int PRODUCT_LOADER_WITH_FILTERS = 1;
+
+    private static final String ARGS_KEY_FILTER = "filters";
+    private static final String ARGS_KEY_QUERY = "query";
+
+
+    private ArrayList mFilters;
+    private String mSearchQuery;
 
     public ProductFragment() {
         // Required empty public constructor
     }
 
+    public static ProductFragment newInstance(ArrayList filters, String query) {
+        ProductFragment fragment = new ProductFragment();
+        Bundle args = new Bundle();
+        args.putIntegerArrayList(ARGS_KEY_FILTER, filters);
+        args.putString(ARGS_KEY_QUERY, query);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     public static ProductFragment newInstance() {
         ProductFragment fragment = new ProductFragment();
-/*        Bundle args = new Bundle();
-        fragment.setArguments(args);*/
         return fragment;
     }
 
@@ -55,7 +76,13 @@ public class ProductFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getActivity().getSupportLoaderManager().initLoader(PRODUCT_LOADER, null, this);
+        if(getArguments() == null) {
+            getActivity().getSupportLoaderManager().initLoader(PRODUCT_LOADER_NO_FILTERS, null, this);
+        } else {
+            mFilters = getArguments().getIntegerArrayList(ARGS_KEY_FILTER);
+            mSearchQuery = getArguments().getString(ARGS_KEY_QUERY);
+            getActivity().getSupportLoaderManager().restartLoader(PRODUCT_LOADER_WITH_FILTERS, null, this);
+        }
     }
 
     @Override
@@ -69,7 +96,6 @@ public class ProductFragment extends Fragment implements LoaderManager.LoaderCal
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mAdapter);
-
 
         return view;
     }
@@ -100,26 +126,65 @@ public class ProductFragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        final String[] projections = {
+        String[] projections = {
                 Columns.ProductColumns.PRODUCT_ID,
                 Columns.ProductColumns.TITLE,
                 Columns.ProductColumns.IMAGE_URL,
                 Columns.ProductColumns.DESCRIPTION
         };
 
-        return new CursorLoader(
-                getContext(),
-                ProductProvider.Product.CONTENT_URI,
-                projections,
-                null,
-                null,
-                null
-        );
+        switch (id) {
+            case(PRODUCT_LOADER_NO_FILTERS):
+                return new CursorLoader(
+                        getContext(),
+                        ProductProvider.Product.CONTENT_URI,
+                        projections,
+                        null,
+                        null,
+                        null
+                );
+
+            case(PRODUCT_LOADER_WITH_FILTERS):
+                if(mFilters.contains(Filters.FILTER_BY_TITLE)) {
+                    return new CursorLoader(
+                            getContext(),
+                            //ProductProvider.Product.withTitle(mSearchQuery),
+                            ProductProvider.Product.CONTENT_URI,
+                            projections,
+                            "title like ?",
+                            new String[]{"%" + mSearchQuery + "%"},
+                            null
+                    );
+                }else if(mFilters.contains(Filters.FILTER_BY_VENDOR)) {
+                    return new CursorLoader(
+                            getContext(),
+                            //ProductProvider.Product.withTitle(mSearchQuery),
+                            ProductProvider.Product.CONTENT_URI,
+                            projections,
+                            "vendor like ?",
+                            new String[]{"%" + mSearchQuery + "%"},
+                            null
+                    );
+                }else if(mFilters.contains(Filters.FILTER_BY_TYPE)) {
+                    return new CursorLoader(
+                            getContext(),
+                            //ProductProvider.Product.withTitle(mSearchQuery),
+                            ProductProvider.Product.CONTENT_URI,
+                            projections,
+                            "product_type like ?",
+                            new String[]{mSearchQuery},
+                            null
+                    );
+                }
+        }
+
+        return null;
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mAdapter.swapCursor(data);
+        Log.i(LOG_TAG, "Size of cursor: " + mAdapter.getItemCount());
     }
 
     @Override
