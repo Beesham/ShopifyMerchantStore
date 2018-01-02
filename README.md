@@ -5,10 +5,15 @@
 ShopifyMerchantStore is an Android application that lists the entire inventory of a merchant. The application was built to satisfy 
 an internship application at Shopify.
 
+## Demo
+
+Demo of working application [HERE](https://drive.google.com/open?id=1lSlpIKRpdchV-jvCyrw1gTs6YZidjJDu)
+
 ## Known Bugs/Limitations/Features(Depending on your point of view)
 
 * No up navigation as all screens are implemented as fragments hosted by a single activity
 * Searching for an item will replace the existing fragment, thus, when the back button is pressed, the previous fragment is popped
+e.g if 2 searches are performed in continuity the back button will pop the 1st search's results.
 * Can't search for all 3 field at once when searching for an item
 
 ## Key Concepts applied
