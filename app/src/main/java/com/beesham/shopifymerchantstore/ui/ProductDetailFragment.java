@@ -93,7 +93,7 @@ public class ProductDetailFragment extends Fragment {
         mProductDescription = view.findViewById(R.id.product_description_text_view);
 
         mRecyclerView = view.findViewById(R.id.variants_recycler_view);
-        mAdapter = new VariantsRecyclerViewAdapter();
+        mAdapter = new VariantsRecyclerViewAdapter(getContext());
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setHasFixedSize(true);

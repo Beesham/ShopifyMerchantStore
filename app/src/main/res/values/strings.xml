@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">ShopifyMerchantStore</string>
 
     <string name="title_header">Title</string>
@@ -6,6 +6,9 @@
     <string name="variants_header">Variants</string>
 
     <string name="search_hint">Filter products</string>
+
+    <!--Variant List item-->
+    <string name="variant_price">$<xliff:g id="price">%.02f</xliff:g></string>
 
     <!--Menu -->
     <string name="menu_settings">Settings</string>

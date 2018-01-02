@@ -1,5 +1,6 @@
 package com.beesham.shopifymerchantstore.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import java.util.List;
 public class VariantsRecyclerViewAdapter extends RecyclerView.Adapter<VariantsRecyclerViewAdapter.VariantsViewHolder> {
 
     private List<Variant> mList;
+    private Context mContext;
 
     public class VariantsViewHolder extends RecyclerView.ViewHolder {
 
@@ -29,6 +31,10 @@ public class VariantsRecyclerViewAdapter extends RecyclerView.Adapter<VariantsRe
             mVariantNameView = itemView.findViewById(R.id.variant_name_text_view);
             mVariantPriceView = itemView.findViewById(R.id.variant_price_text_view);
         }
+    }
+
+    public VariantsRecyclerViewAdapter(Context mContext) {
+        this.mContext = mContext;
     }
 
     @Override
@@ -47,7 +53,9 @@ public class VariantsRecyclerViewAdapter extends RecyclerView.Adapter<VariantsRe
     @Override
     public void onBindViewHolder(VariantsViewHolder holder, int position) {
         holder.mVariantNameView.setText(mList.get(position).getTitle());
-        holder.mVariantPriceView.setText(mList.get(position).getPrice());
+        holder.mVariantPriceView.setText(
+                mContext.getString(R.string.variant_price,
+                Double.parseDouble(mList.get(position).getPrice())));
     }
 
     @Override
