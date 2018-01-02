@@ -1,7 +1,5 @@
 package com.beesham.shopifymerchantstore.adapters;
 
-import android.content.Context;
-import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +35,7 @@ public class VariantsRecyclerViewAdapter extends RecyclerView.Adapter<VariantsRe
     public VariantsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if(parent instanceof RecyclerView) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.vairant_list_item, parent, false);
+                    .inflate(R.layout.variant_list_item, parent, false);
             view.setFocusable(true);
 
             return new VariantsViewHolder(view);

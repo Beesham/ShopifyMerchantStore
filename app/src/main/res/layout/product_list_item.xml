@@ -27,9 +27,7 @@
                     tools:text="product_title_view"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:paddingStart="@dimen/title_padding"
-                    android:paddingLeft="@dimen/title_padding"
-                    android:paddingEnd="@dimen/title_padding"
+                    android:padding="@dimen/card_view_title_padding"
                     android:id="@+id/product_title_text_view"
                     android:gravity="center_vertical"
                     android:fontFamily="roboto-regular"
@@ -47,7 +45,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:text="Description text here"
-                    android:padding="@dimen/default_padding"/>
+                    android:paddingTop="@dimen/card_view_padding_top"
+                    android:paddingStart="@dimen/card_view_padding_start"
+                    android:paddingBottom="@dimen/card_view_supporting_text_padding_bottom"
+                    android:paddingLeft="@dimen/card_view_padding_start"
+                    android:paddingEnd="@dimen/card_view_padding_end"
+                    android:paddingRight="@dimen/card_view_padding_end"
+                    android:textSize="14sp"/>
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
