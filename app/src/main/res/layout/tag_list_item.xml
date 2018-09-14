@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_view"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="@dimen/card_view_corner_radius"
+            android:layout_margin="@dimen/card_view_margin"
+            style="@style/CardView">
+
+
+        <TextView
+                android:id="@+id/tag_name_view"
+                tools:text="Aerodynamic Concrete Plate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+    </android.support.v7.widget.CardView>
+</LinearLayout>
