@@ -1,9 +1,12 @@
 package com.beesham.shopifymerchantstore.ui;
 
+import android.app.Fragment;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
@@ -25,6 +28,7 @@ import com.beesham.shopifymerchantstore.service.ShopifyApiEndpoints;
 import com.beesham.shopifymerchantstore.utils.ProductUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements ProductsRecyclerV
 
     private static android.support.v4.app.FragmentManager mFragmentManager;
 
+    private DrawerLayout mDrawerLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,8 +49,12 @@ public class MainActivity extends AppCompatActivity implements ProductsRecyclerV
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_menu_white_24);
-        
+
+        //get data
         doServiceCall();
+
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
 
         if(findViewById(R.id.fragment_container) != null) {
             if(savedInstanceState != null) return;
@@ -56,6 +66,34 @@ public class MainActivity extends AppCompatActivity implements ProductsRecyclerV
                     .add(R.id.fragment_container, productFragment)
                     .commit();
         }
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                item.setChecked(true);
+                mDrawerLayout.closeDrawers();
+
+                switch(item.getItemId()){
+                    case(R.id.menu_drawer_all_products):
+                        //gets a list of fragments on the backstack and removes them so the user can't cycle through old fragments
+                        List<android.support.v4.app.Fragment> fragmentList = mFragmentManager.getFragments();
+                            if(!fragmentList.isEmpty()) {
+                                for(int i = 0; i < fragmentList.size(); i++) {
+                                    mFragmentManager.beginTransaction().remove(fragmentList.get(i)).commit();
+                                }
+                                mFragmentManager.beginTransaction().add(R.id.fragment_container, ProductFragment.newInstance()).commit();
+                            }
+                        return true;
+
+
+                    case(R.id.menu_drawer_tags):
+
+                        return true;
+                }
+
+                return true;
+            }
+        });
 
         handleIntent(getIntent());
     }
@@ -110,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements ProductsRecyclerV
         switch (item.getItemId()) {
             //Opens the navigation drawer
             case android.R.id.home:
-                ((DrawerLayout) findViewById(R.id.drawer_layout)).openDrawer(GravityCompat.START);
+                mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
         }
 
