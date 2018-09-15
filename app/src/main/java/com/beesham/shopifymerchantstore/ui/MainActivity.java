@@ -42,8 +42,8 @@ public class MainActivity extends AppCompatActivity implements ProductsRecyclerV
         setContentView(R.layout.activity_main);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_search_white_24dp); //TODO: change icon to hamburger
-
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_menu_white_24);
+        
         doServiceCall();
 
         if(findViewById(R.id.fragment_container) != null) {
