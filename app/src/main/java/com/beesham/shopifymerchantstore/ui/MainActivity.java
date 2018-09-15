@@ -4,6 +4,8 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.beesham.shopifymerchantstore.BuildConfig;
 import com.beesham.shopifymerchantstore.R;
@@ -38,6 +41,9 @@ public class MainActivity extends AppCompatActivity implements ProductsRecyclerV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_search_white_24dp); //TODO: change icon to hamburger
+
         doServiceCall();
 
         if(findViewById(R.id.fragment_container) != null) {
@@ -97,6 +103,18 @@ public class MainActivity extends AppCompatActivity implements ProductsRecyclerV
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            //Opens the navigation drawer
+            case android.R.id.home:
+                ((DrawerLayout) findViewById(R.id.drawer_layout)).openDrawer(GravityCompat.START);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

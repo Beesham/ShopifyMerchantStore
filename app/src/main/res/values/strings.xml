@@ -17,4 +17,8 @@
     <!--Dialog (Main)-->
     <string name="dialog_title">Filter by</string>
 
+    <!--Drawer-->
+    <string name="drawer_all_products">All Products</string>
+    <string name="drawer_tags">Tags</string>
+
 </resources>
