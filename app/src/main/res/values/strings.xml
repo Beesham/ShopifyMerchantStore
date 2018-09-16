@@ -4,6 +4,7 @@
     <string name="title_header">Title</string>
     <string name="description_header">Description</string>
     <string name="variants_header">Variants</string>
+    <string name="total_header">Total Available</string>
 
     <string name="search_hint">Filter products</string>
 
