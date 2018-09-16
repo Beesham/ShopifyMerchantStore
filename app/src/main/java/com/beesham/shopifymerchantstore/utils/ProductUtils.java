@@ -9,7 +9,9 @@ import com.beesham.shopifymerchantstore.data.Columns;
 import com.beesham.shopifymerchantstore.data.ProductProvider;
 import com.beesham.shopifymerchantstore.model.Product;
 import com.beesham.shopifymerchantstore.model.ProductsList;
+import com.beesham.shopifymerchantstore.model.Variant;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -27,7 +29,7 @@ public class ProductUtils {
 
     private static final String LOG_TAG = ProductUtils.class.getSimpleName();
 
-    public static Vector<ContentValues> prepareForCaching(ProductsList productsList) {
+    public static Vector<ContentValues> prepareProductsForCaching(ProductsList productsList) {
 
         Vector<ContentValues> contentValuesVector = new Vector<>(productsList.getProducts().size());
 
@@ -45,9 +47,41 @@ public class ProductUtils {
             contentValuesVector.add(contentValues);
         }
 
-        //TODO: contentvaluse for options and variants
+        //TODO: contentvaluse for options
 
         return contentValuesVector;
+    }
+
+    public static ArrayList<ContentValues> prepareProductVariantsForCaching(ProductsList productsList) {
+
+        ArrayList<ContentValues> variantsContentValuesList = new ArrayList<>();
+
+        //Converts the data in the productsList to contentValues in order for caching in database
+        for(Product product: productsList.getProducts()) {
+            List<Variant> variantList = product.getVariants();
+            for(Variant variant: variantList) {
+                ContentValues variantContentValues = new ContentValues();
+                variantContentValues.put(Columns.VariantColumns.VARIANT_ID, variant.getId());
+                variantContentValues.put(Columns.VariantColumns.PRODUCT_ID, variant.getProductId());
+                variantContentValues.put(Columns.VariantColumns.TITLE, variant.getTitle());
+                variantContentValues.put(Columns.VariantColumns.PRICE, variant.getPrice());
+                variantContentValues.put(Columns.VariantColumns.INVENTORY_QUANTITY, variant.getInventoryQuantity());
+
+                variantsContentValuesList.add(variantContentValues);
+            }
+        }
+
+        return variantsContentValuesList;
+    }
+
+    public static void logProductVariants(Context context, ArrayList<ContentValues> contentValues) {
+        int inserted = 0;
+
+        if(contentValues.size() > 0){
+            ContentValues[] contentValuesArray = new ContentValues[contentValues.size()];
+            contentValues.toArray(contentValuesArray);
+            inserted = context.getContentResolver().bulkInsert(ProductProvider.Variant.CONTENT_URI, contentValuesArray);
+        }
     }
 
     public static void logProducts(Context context, Vector<ContentValues> contentValuesVector) {

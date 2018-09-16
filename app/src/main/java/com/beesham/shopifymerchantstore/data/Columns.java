@@ -64,8 +64,8 @@ public class Columns {
         @DataType(DataType.Type.REAL)
         public static final String PRICE = "price";
 
-        @DataType(DataType.Type.TEXT)
-        public static final String TAGS = "tags";
+        @DataType(DataType.Type.INTEGER)
+        public static final String  INVENTORY_QUANTITY = "inventory_quantity";
     }
 
     public static class OptionColumns {

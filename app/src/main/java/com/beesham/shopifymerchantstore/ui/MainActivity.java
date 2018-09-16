@@ -1,6 +1,5 @@
 package com.beesham.shopifymerchantstore.ui;
 
-import android.app.Fragment;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -110,7 +109,8 @@ public class MainActivity extends AppCompatActivity implements ProductsRecyclerV
             @Override
             public void onResponse(Call<ProductsList> call, Response<ProductsList> response) {
                 //Caches the data in database
-                ProductUtils.logProducts(MainActivity.this, ProductUtils.prepareForCaching(response.body()));
+                ProductUtils.logProducts(MainActivity.this, ProductUtils.prepareProductsForCaching(response.body()));
+                ProductUtils.logProductVariants(MainActivity.this, ProductUtils.prepareProductVariantsForCaching(response.body()));
             }
 
             @Override
