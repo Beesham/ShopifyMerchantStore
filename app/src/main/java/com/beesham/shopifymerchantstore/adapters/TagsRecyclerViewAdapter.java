@@ -2,7 +2,6 @@ package com.beesham.shopifymerchantstore.adapters;
 
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +11,16 @@ import com.beesham.shopifymerchantstore.R;
 import com.beesham.shopifymerchantstore.data.Columns;
 import com.beesham.shopifymerchantstore.ui.TagsFragment.OnListFragmentInteractionListener;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 public class TagsRecyclerViewAdapter extends RecyclerView.Adapter<TagsRecyclerViewAdapter.ViewHolder> {
 
     private final OnListFragmentInteractionListener mListener;
 
-    private Cursor mCursor;
+    private List<String> dataList;
 
     public TagsRecyclerViewAdapter(OnListFragmentInteractionListener listener) {
         mListener = listener;
@@ -33,9 +35,8 @@ public class TagsRecyclerViewAdapter extends RecyclerView.Adapter<TagsRecyclerVi
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        mCursor.moveToPosition(position);
 
-        holder.mTitleView.setText(mCursor.getString(mCursor.getColumnIndex(Columns.ProductColumns.TAGS)));
+        holder.mTitleView.setText(dataList.get(position));
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,12 +51,12 @@ public class TagsRecyclerViewAdapter extends RecyclerView.Adapter<TagsRecyclerVi
 
     @Override
     public int getItemCount() {
-        if(mCursor == null) return 0;
-        return mCursor.getCount();
+        if(dataList == null) return 0;
+        return dataList.size();
     }
 
-    public void swapCursor(Cursor newCursor) {
-        mCursor = newCursor;
+    public void swapCursor(Set list) {
+        dataList = new ArrayList<String>(list);
         notifyDataSetChanged();
     }
 

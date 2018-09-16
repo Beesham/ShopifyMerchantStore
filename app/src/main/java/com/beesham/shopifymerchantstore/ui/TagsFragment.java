@@ -21,6 +21,9 @@ import com.beesham.shopifymerchantstore.R;
 import com.beesham.shopifymerchantstore.adapters.TagsRecyclerViewAdapter;
 import com.beesham.shopifymerchantstore.data.Columns;
 import com.beesham.shopifymerchantstore.data.ProductProvider;
+import com.beesham.shopifymerchantstore.utils.ProductUtils;
+
+import java.util.List;
 
 
 /**
@@ -95,10 +98,6 @@ public class TagsFragment extends Fragment implements LoaderManager.LoaderCallba
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
         String[] projections = {
-                Columns.ProductColumns.PRODUCT_ID,
-                Columns.ProductColumns.TITLE,
-                Columns.ProductColumns.IMAGE_URL,
-                Columns.ProductColumns.DESCRIPTION,
                 Columns.ProductColumns.TAGS
         };
 
@@ -115,7 +114,7 @@ public class TagsFragment extends Fragment implements LoaderManager.LoaderCallba
 
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-        mTagsRecyclerViewAdapter.swapCursor(data);
+        mTagsRecyclerViewAdapter.swapCursor(ProductUtils.filterTags(data));
     }
 
     @Override
