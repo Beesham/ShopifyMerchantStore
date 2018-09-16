@@ -73,21 +73,21 @@ public class MainActivity extends AppCompatActivity implements ProductsRecyclerV
                 item.setChecked(true);
                 mDrawerLayout.closeDrawers();
 
+                //gets a list of fragments on the backstack and removes them so the user can't cycle through old fragments
+                List<android.support.v4.app.Fragment> fragmentList = mFragmentManager.getFragments();
+                if(!fragmentList.isEmpty()) {
+                    for(int i = 0; i < fragmentList.size(); i++) {
+                        mFragmentManager.beginTransaction().remove(fragmentList.get(i)).commit();
+                    }
+                }
+
                 switch(item.getItemId()){
                     case(R.id.menu_drawer_all_products):
-                        //gets a list of fragments on the backstack and removes them so the user can't cycle through old fragments
-                        List<android.support.v4.app.Fragment> fragmentList = mFragmentManager.getFragments();
-                            if(!fragmentList.isEmpty()) {
-                                for(int i = 0; i < fragmentList.size(); i++) {
-                                    mFragmentManager.beginTransaction().remove(fragmentList.get(i)).commit();
-                                }
-                                mFragmentManager.beginTransaction().add(R.id.fragment_container, ProductFragment.newInstance()).commit();
-                            }
+                        mFragmentManager.beginTransaction().add(R.id.fragment_container, ProductFragment.newInstance()).commit();
                         return true;
 
-
                     case(R.id.menu_drawer_tags):
-
+                        mFragmentManager.beginTransaction().add(R.id.fragment_container, TagsFragment.newInstance()).commit();
                         return true;
                 }
 

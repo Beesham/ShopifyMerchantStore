@@ -1,17 +1,26 @@
 package com.beesham.shopifymerchantstore.ui;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.beesham.shopifymerchantstore.R;
 import com.beesham.shopifymerchantstore.adapters.TagsRecyclerViewAdapter;
+import com.beesham.shopifymerchantstore.data.Columns;
+import com.beesham.shopifymerchantstore.data.ProductProvider;
 
 
 /**
@@ -20,10 +29,12 @@ import com.beesham.shopifymerchantstore.adapters.TagsRecyclerViewAdapter;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class TagsFragment extends Fragment {
+public class TagsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
+    private static final String LOG_TAG = TagsFragment.class.getSimpleName();
+
+    private TagsRecyclerViewAdapter mTagsRecyclerViewAdapter;
+    private RecyclerView mRecyclerView;
 
     private OnListFragmentInteractionListener mListener;
 
@@ -34,10 +45,20 @@ public class TagsFragment extends Fragment {
     public TagsFragment() {
     }
 
+    public static TagsFragment newInstance() {
+        TagsFragment fragment = new TagsFragment();
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getActivity().getSupportLoaderManager().initLoader(2, null, this);
     }
 
     @Override
@@ -48,13 +69,9 @@ public class TagsFragment extends Fragment {
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            //recyclerView.setAdapter(new TagsRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            mRecyclerView = (RecyclerView) view;
+            mTagsRecyclerViewAdapter = new TagsRecyclerViewAdapter(mListener);
+            mRecyclerView.setAdapter(mTagsRecyclerViewAdapter);
         }
         return view;
     }
@@ -65,9 +82,6 @@ public class TagsFragment extends Fragment {
         super.onAttach(context);
         if (context instanceof OnListFragmentInteractionListener) {
             mListener = (OnListFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
         }
     }
 
@@ -75,6 +89,38 @@ public class TagsFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @NonNull
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
+        String[] projections = {
+                Columns.ProductColumns.PRODUCT_ID,
+                Columns.ProductColumns.TITLE,
+                Columns.ProductColumns.IMAGE_URL,
+                Columns.ProductColumns.DESCRIPTION,
+                Columns.ProductColumns.TAGS
+        };
+
+        return new CursorLoader(
+                getContext(),
+                ProductProvider.Product.CONTENT_URI,
+                projections,
+                null,
+                null,
+                null
+        );
+
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
+        mTagsRecyclerViewAdapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+        mTagsRecyclerViewAdapter.swapCursor(null);
     }
 
     /**

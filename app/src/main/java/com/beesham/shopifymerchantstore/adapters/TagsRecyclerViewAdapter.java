@@ -1,26 +1,26 @@
 package com.beesham.shopifymerchantstore.adapters;
 
+import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.beesham.shopifymerchantstore.R;
+import com.beesham.shopifymerchantstore.data.Columns;
 import com.beesham.shopifymerchantstore.ui.TagsFragment.OnListFragmentInteractionListener;
 
 import java.util.List;
 
-/**
- * TODO: Replace the implementation with code for your data type.
- */
 public class TagsRecyclerViewAdapter extends RecyclerView.Adapter<TagsRecyclerViewAdapter.ViewHolder> {
 
-    private final List<String> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public TagsRecyclerViewAdapter(List<String> items, OnListFragmentInteractionListener listener) {
-        mValues = items;
+    private Cursor mCursor;
+
+    public TagsRecyclerViewAdapter(OnListFragmentInteractionListener listener) {
         mListener = listener;
     }
 
@@ -33,10 +33,9 @@ public class TagsRecyclerViewAdapter extends RecyclerView.Adapter<TagsRecyclerVi
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        //holder.mIdView.setText(mValues.get(position).id);
-       // holder.mContentView.setText(mValues.get(position).content);
+        mCursor.moveToPosition(position);
 
+        holder.mTitleView.setText(mCursor.getString(mCursor.getColumnIndex(Columns.ProductColumns.TAGS)));
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,25 +50,25 @@ public class TagsRecyclerViewAdapter extends RecyclerView.Adapter<TagsRecyclerVi
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        if(mCursor == null) return 0;
+        return mCursor.getCount();
+    }
+
+    public void swapCursor(Cursor newCursor) {
+        mCursor = newCursor;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        //public final TextView mIdView;
-        //public final TextView mContentView;
+        public final TextView mTitleView;
         public String mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            //mIdView = (TextView) view.findViewById(R.id.item_number);
-            //mContentView = (TextView) view.findViewById(R.id.content);
+            mTitleView = (TextView) view.findViewById(R.id.tag_name_view);
         }
 
-        /*@Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
-        }*/
     }
 }
