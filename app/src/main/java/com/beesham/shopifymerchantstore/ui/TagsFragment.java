@@ -73,7 +73,7 @@ public class TagsFragment extends Fragment implements LoaderManager.LoaderCallba
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             mRecyclerView = (RecyclerView) view;
-            mTagsRecyclerViewAdapter = new TagsRecyclerViewAdapter(mListener);
+            mTagsRecyclerViewAdapter = new TagsRecyclerViewAdapter(mListener, getContext());
             mRecyclerView.setAdapter(mTagsRecyclerViewAdapter);
         }
         return view;

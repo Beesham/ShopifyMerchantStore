@@ -1,5 +1,6 @@
 package com.beesham.shopifymerchantstore.adapters;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,11 +20,19 @@ import java.util.Set;
 public class TagsRecyclerViewAdapter extends RecyclerView.Adapter<TagsRecyclerViewAdapter.ViewHolder> {
 
     private final OnListFragmentInteractionListener mListener;
-
+    private Context mContext;
     private List<String> dataList;
 
-    public TagsRecyclerViewAdapter(OnListFragmentInteractionListener listener) {
+    private OnTagItemClickListener mItemClickedListener;
+
+    public interface OnTagItemClickListener {
+        void OnTagItemClick(String tag);
+    }
+
+    public TagsRecyclerViewAdapter(OnListFragmentInteractionListener listener, Context mContext) {
         mListener = listener;
+        this.mContext = mContext;
+        mItemClickedListener = (OnTagItemClickListener) mContext;
     }
 
     @Override
@@ -35,18 +44,7 @@ public class TagsRecyclerViewAdapter extends RecyclerView.Adapter<TagsRecyclerVi
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-
         holder.mTitleView.setText(dataList.get(position));
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    //mListener.onListFragmentInteraction(holder.mItem);
-                }
-            }
-        });
     }
 
     @Override
@@ -60,7 +58,7 @@ public class TagsRecyclerViewAdapter extends RecyclerView.Adapter<TagsRecyclerVi
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final View mView;
         public final TextView mTitleView;
         public String mItem;
@@ -68,8 +66,13 @@ public class TagsRecyclerViewAdapter extends RecyclerView.Adapter<TagsRecyclerVi
         public ViewHolder(View view) {
             super(view);
             mView = view;
+            mView.setOnClickListener(this);
             mTitleView = (TextView) view.findViewById(R.id.tag_name_view);
         }
 
+        @Override
+        public void onClick(View view) {
+            mItemClickedListener.OnTagItemClick(dataList.get(getPosition()));
+        }
     }
 }

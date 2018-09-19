@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,33 +20,36 @@ public class TagProductRecyclerViewAdapter extends RecyclerView.Adapter<TagProdu
     private Cursor mCursor;
     private Context mContext;
 
-    private AdapterView.OnItemClickListener mItemClickedListener;
+    private OnTagProductItemClickListener mItemClickedListener;
 
+    public interface OnTagProductItemClickListener {
+        void OnTagProductItemClick(String productId);
+    }
 
     public class TagProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView mTitleView;
         public ImageView mImageView;
-        public TextView mtotalAvailableProductView;
+        public TextView mTotalAvailableProductView;
 
         public TagProductViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
             mTitleView = itemView.findViewById(R.id.tag_product_list_item_title_view);
             mImageView = itemView.findViewById(R.id.tag_product_list_item_image_view);
-            mtotalAvailableProductView = itemView.findViewById(R.id.tag_product_list_item_variants_total_view);
+            mTotalAvailableProductView = itemView.findViewById(R.id.tag_product_list_item_variants_total_view);
         }
 
         @Override
         public void onClick(View view) {
             mCursor.moveToPosition(getPosition());
-           // mItemClickedListener.OnItemClick(mCursor.getString(mCursor.getColumnIndex(Columns.ProductColumns.PRODUCT_ID)));
+            //mItemClickedListener.OnTagProductItemClick();
         }
     }
 
     public TagProductRecyclerViewAdapter(Context mContext) {
         this.mContext = mContext;
-        mItemClickedListener = (AdapterView.OnItemClickListener) mContext;
+        mItemClickedListener = (OnTagProductItemClickListener) mContext;
     }
 
     @NonNull

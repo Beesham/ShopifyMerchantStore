@@ -30,7 +30,7 @@ public class TagProductFragment extends Fragment implements LoaderManager.Loader
     private TagProductRecyclerViewAdapter mViewAdapter;
     private RecyclerView mRecyclerView;
 
-    private static final int TAG_PRODUCT_LOADER = 0;
+    private static final int TAG_PRODUCT_LOADER = 3;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -46,20 +46,11 @@ public class TagProductFragment extends Fragment implements LoaderManager.Loader
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TagProductFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static TagProductFragment newInstance(String param1, String param2) {
+    public static TagProductFragment newInstance() {
         TagProductFragment fragment = new TagProductFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        /*args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);*/
         fragment.setArguments(args);
         return fragment;
     }
@@ -77,9 +68,9 @@ public class TagProductFragment extends Fragment implements LoaderManager.Loader
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if(getArguments() == null) {
-            getActivity().getSupportLoaderManager().initLoader(TAG_PRODUCT_LOADER, null, this);
+            //getActivity().getSupportLoaderManager().initLoader(TAG_PRODUCT_LOADER, null, this);
         } else {
-            getActivity().getSupportLoaderManager().restartLoader(TAG_PRODUCT_LOADER, null, this);
+            //getActivity().getSupportLoaderManager().restartLoader(TAG_PRODUCT_LOADER, null, this);
         }
     }
 
@@ -101,16 +92,18 @@ public class TagProductFragment extends Fragment implements LoaderManager.Loader
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
+        //TODO
+
         return null;
     }
 
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-
+        mViewAdapter.swapCursor(data);
     }
 
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-
+        mViewAdapter.swapCursor(null);
     }
 }

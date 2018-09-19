@@ -21,6 +21,8 @@ import android.view.MenuItem;
 import com.beesham.shopifymerchantstore.BuildConfig;
 import com.beesham.shopifymerchantstore.R;
 import com.beesham.shopifymerchantstore.adapters.ProductsRecyclerViewAdapter;
+import com.beesham.shopifymerchantstore.adapters.TagProductRecyclerViewAdapter;
+import com.beesham.shopifymerchantstore.adapters.TagsRecyclerViewAdapter;
 import com.beesham.shopifymerchantstore.model.ProductsList;
 import com.beesham.shopifymerchantstore.service.ProductServiceGenerator;
 import com.beesham.shopifymerchantstore.service.ShopifyApiEndpoints;
@@ -33,7 +35,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements ProductsRecyclerViewAdapter.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements ProductsRecyclerViewAdapter.OnItemClickListener,
+        TagProductRecyclerViewAdapter.OnTagProductItemClickListener,
+        TagsRecyclerViewAdapter.OnTagItemClickListener{
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
@@ -129,6 +133,19 @@ public class MainActivity extends AppCompatActivity implements ProductsRecyclerV
     }
 
     @Override
+    public void OnTagProductItemClick(String productId) {
+        //TODO: launch product detail
+    }
+
+    @Override
+    public void OnTagItemClick(String tag) {
+        mFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, TagProductFragment.newInstance())
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
@@ -215,4 +232,6 @@ public class MainActivity extends AppCompatActivity implements ProductsRecyclerV
 
         dialog.show();
     }
+
+
 }
