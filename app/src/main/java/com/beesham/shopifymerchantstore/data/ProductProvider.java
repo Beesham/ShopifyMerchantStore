@@ -5,7 +5,13 @@ import android.net.Uri;
 import net.simonvt.schematic.annotation.ContentProvider;
 import net.simonvt.schematic.annotation.ContentUri;
 import net.simonvt.schematic.annotation.InexactContentUri;
+import net.simonvt.schematic.annotation.Join;
+import net.simonvt.schematic.annotation.MapColumns;
 import net.simonvt.schematic.annotation.TableEndpoint;
+import net.simonvt.schematic.annotation.Where;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Beesham on 12/27/2017.
@@ -20,6 +26,7 @@ public final class ProductProvider {
     interface Path{
         String PRODUCT = "product";
         String VARIANT = "variant";
+        String VARIANT_JOIN = "variant_join";
         String OPTION = "option";
     }
 
@@ -34,6 +41,7 @@ public final class ProductProvider {
 
     @TableEndpoint(table = ProductDatabase.PRODUCT)
     public static class Product {
+
         @ContentUri(
                 path = Path.PRODUCT,
                 type = "vnd.android.cursor.dir/product"
@@ -50,6 +58,7 @@ public final class ProductProvider {
         public static Uri withTitle(String productTitle) {
             return buildUri(Path.PRODUCT, productTitle);
         }
+
     }
 
     @TableEndpoint(table = ProductDatabase.VARIANT)
@@ -70,6 +79,14 @@ public final class ProductProvider {
         public static Uri withID(String productID) {
             return buildUri(Path.VARIANT, productID);
         }
+
+        @ContentUri(
+                path = Path.VARIANT_JOIN,
+                type = "vnd.android.cursor.dir/variant",
+                join = "INNER JOIN product ON product.product_id=variant.product_id",
+                groupBy = "variant.product_id"
+        )
+        public static final Uri CONTENT_URI_VARIANT_JOIN = buildUri(Path.VARIANT_JOIN);
     }
 
     //TODO: Option table endpoint

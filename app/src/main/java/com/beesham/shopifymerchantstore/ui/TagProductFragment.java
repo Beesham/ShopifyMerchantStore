@@ -8,15 +8,18 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.beesham.shopifymerchantstore.R;
 import com.beesham.shopifymerchantstore.adapters.TagProductRecyclerViewAdapter;
-import com.beesham.shopifymerchantstore.adapters.TagsRecyclerViewAdapter;
+import com.beesham.shopifymerchantstore.data.Columns;
+import com.beesham.shopifymerchantstore.data.ProductProvider;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,25 +35,17 @@ public class TagProductFragment extends Fragment implements LoaderManager.Loader
 
     private static final int TAG_PRODUCT_LOADER = 3;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
+    private String mSelectedTag;
+    private static final String TAG_KEY = "param1";
 
     public TagProductFragment() {
         // Required empty public constructor
     }
 
-    public static TagProductFragment newInstance() {
+    public static TagProductFragment newInstance(String tag) {
         TagProductFragment fragment = new TagProductFragment();
         Bundle args = new Bundle();
-        /*args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);*/
+        args.putString(TAG_KEY, "Concrete");
         fragment.setArguments(args);
         return fragment;
     }
@@ -59,8 +54,7 @@ public class TagProductFragment extends Fragment implements LoaderManager.Loader
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mSelectedTag = getArguments().getString(TAG_KEY);
         }
     }
 
@@ -68,9 +62,9 @@ public class TagProductFragment extends Fragment implements LoaderManager.Loader
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if(getArguments() == null) {
-            //getActivity().getSupportLoaderManager().initLoader(TAG_PRODUCT_LOADER, null, this);
+            getActivity().getSupportLoaderManager().initLoader(TAG_PRODUCT_LOADER, null, this);
         } else {
-            //getActivity().getSupportLoaderManager().restartLoader(TAG_PRODUCT_LOADER, null, this);
+            getActivity().getSupportLoaderManager().restartLoader(TAG_PRODUCT_LOADER, null, this);
         }
     }
 
@@ -92,13 +86,23 @@ public class TagProductFragment extends Fragment implements LoaderManager.Loader
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        //TODO
-
-        return null;
+        return new CursorLoader(
+                getContext(),
+                ProductProvider.Variant.CONTENT_URI_VARIANT_JOIN,
+                new String[] {
+                        "variant." + Columns.ProductColumns.PRODUCT_ID,
+                        "variant." + Columns.ProductColumns.TITLE,
+                        "SUM(variant." + Columns.VariantColumns.INVENTORY_QUANTITY + ")",
+                        "product." + Columns.ProductColumns.IMAGE_URL},
+                "product.tags like ?",
+                new String[] {"%" + mSelectedTag + "%"},
+                null
+        );
     }
 
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
+        Log.d(LOG_TAG, "cursor count: " + data.getCount());
         mViewAdapter.swapCursor(data);
     }
 

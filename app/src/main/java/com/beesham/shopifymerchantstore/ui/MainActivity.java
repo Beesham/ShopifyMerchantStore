@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements ProductsRecyclerV
     @Override
     public void OnTagItemClick(String tag) {
         mFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, TagProductFragment.newInstance())
+                .replace(R.id.fragment_container, TagProductFragment.newInstance(tag))
                 .addToBackStack(null)
                 .commit();
     }
