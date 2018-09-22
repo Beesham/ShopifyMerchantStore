@@ -82,9 +82,20 @@ public final class ProductProvider {
 
         @ContentUri(
                 path = Path.VARIANT_JOIN,
-                type = "vnd.android.cursor.dir/variant",
-                join = "INNER JOIN product ON product.product_id=variant.product_id",
-                groupBy = "variant.product_id"
+                type = "vnd.android.cursor.dir/" + Path.VARIANT,
+                join = "INNER JOIN " +
+                        ProductDatabase.PRODUCT
+                        + " ON " +
+                        ProductDatabase.PRODUCT +
+                        "." +
+                        Columns.ProductColumns.PRODUCT_ID +
+                        "=" +
+                        ProductDatabase.VARIANT +
+                        "." +
+                        Columns.VariantColumns.PRODUCT_ID,
+                groupBy = ProductDatabase.VARIANT +
+                        "." +
+                        Columns.VariantColumns.PRODUCT_ID
         )
         public static final Uri CONTENT_URI_VARIANT_JOIN = buildUri(Path.VARIANT_JOIN);
     }
