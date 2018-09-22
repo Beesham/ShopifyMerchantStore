@@ -13,6 +13,8 @@ import net.simonvt.schematic.annotation.Unique;
 
 public class Columns {
 
+    public static final String AS_TOTAL_INVENTORY = "total_inventory";
+
     public static class ProductColumns {
         @DataType(DataType.Type.INTEGER)
         @PrimaryKey

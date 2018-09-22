@@ -44,14 +44,14 @@ public final class ProductProvider {
 
         @ContentUri(
                 path = Path.PRODUCT,
-                type = "vnd.android.cursor.dir/product"
+                type = "vnd.android.cursor.dir/" + Path.PRODUCT
         )
         public static final Uri CONTENT_URI = buildUri(Path.PRODUCT);
 
         @InexactContentUri(
                 name = "PRODUCT_ID",
                 path = Path.PRODUCT + "/*",
-                type = "vnd.android.cursor.item/product",
+                type = "vnd.android.cursor.item/" + Path.PRODUCT,
                 whereColumn = Columns.ProductColumns.TITLE,
                 pathSegment = 1
         )
@@ -65,14 +65,14 @@ public final class ProductProvider {
     public static class Variant {
         @ContentUri(
                 path = Path.VARIANT,
-                type = "vnd.android.cursor.dir/variant"
+                type = "vnd.android.cursor.dir/" + Path.VARIANT
         )
         public static final Uri CONTENT_URI = buildUri(Path.VARIANT);
 
         @InexactContentUri(
                 name = "VARIANT_ID",
                 path = Path.VARIANT + "/*",
-                type = "vnd.android.cursor.item/variant",
+                type = "vnd.android.cursor.item" + Path.VARIANT,
                 whereColumn = Columns.ProductColumns.PRODUCT_ID,
                 pathSegment = 1
         )

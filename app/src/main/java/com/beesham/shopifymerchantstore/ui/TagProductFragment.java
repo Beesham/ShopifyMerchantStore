@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import com.beesham.shopifymerchantstore.R;
 import com.beesham.shopifymerchantstore.adapters.TagProductRecyclerViewAdapter;
 import com.beesham.shopifymerchantstore.data.Columns;
+import com.beesham.shopifymerchantstore.data.ProductDatabase;
 import com.beesham.shopifymerchantstore.data.ProductProvider;
 
 /**
@@ -94,11 +95,11 @@ public class TagProductFragment extends Fragment implements LoaderManager.Loader
                         getContext(),
                         ProductProvider.Variant.CONTENT_URI_VARIANT_JOIN,
                         new String[]{
-                                "variant." + Columns.ProductColumns.PRODUCT_ID,
-                                "product." + Columns.ProductColumns.TITLE,
-                                "SUM(variant." + Columns.VariantColumns.INVENTORY_QUANTITY + ") as total_inventory",
-                                "product." + Columns.ProductColumns.IMAGE_URL},
-                        "product.tags like ?",
+                                ProductDatabase.VARIANT + "." + Columns.VariantColumns.PRODUCT_ID,
+                                ProductDatabase.PRODUCT + "." + Columns.ProductColumns.TITLE,
+                                "SUM(" + ProductDatabase.VARIANT + "." + Columns.VariantColumns.INVENTORY_QUANTITY + ") as " + Columns.AS_TOTAL_INVENTORY,
+                                ProductDatabase.PRODUCT + "." + Columns.ProductColumns.IMAGE_URL},
+                        ProductDatabase.PRODUCT + "." + Columns.ProductColumns.TAGS + " like ?",
                         new String[]{"%" + mSelectedTag + "%"},
                         null
                 );
