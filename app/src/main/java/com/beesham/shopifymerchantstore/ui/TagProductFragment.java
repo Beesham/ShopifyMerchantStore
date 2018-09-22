@@ -47,7 +47,6 @@ public class TagProductFragment extends Fragment implements LoaderManager.Loader
         TagProductFragment fragment = new TagProductFragment();
         Bundle args = new Bundle();
         args.putString(TAG_KEY, tag);
-        Log.d(LOG_TAG, "tag being queried: " + tag);
         fragment.setArguments(args);
         return fragment;
     }

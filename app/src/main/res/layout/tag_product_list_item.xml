@@ -14,18 +14,19 @@
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin">
 
         <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/tag_product_list_item_image_view"
                 tools:src="@mipmap/ic_launcher"
-                android:layout_margin="@dimen/default_margin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
         <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/default_margin">
 
             <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/tag_product_list_item_title_view"
@@ -35,7 +36,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentStart="true"
-                    android:layout_marginTop="12dp"/>
+                    android:layout_alignParentLeft="true"/>
 
             <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/tag_product_list_item_total_header"
@@ -45,7 +46,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="16dp"
                     android:layout_alignParentLeft="true"/>
 
             <android.support.v7.widget.AppCompatTextView
