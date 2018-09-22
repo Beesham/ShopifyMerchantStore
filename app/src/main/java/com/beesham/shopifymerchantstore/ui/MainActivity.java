@@ -35,7 +35,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements ProductsRecyclerViewAdapter.OnItemClickListener,
+public class MainActivity extends AppCompatActivity implements
+        NavigationView.OnNavigationItemSelectedListener,
+        ProductsRecyclerViewAdapter.OnItemClickListener,
         TagProductRecyclerViewAdapter.OnTagProductItemClickListener,
         TagsRecyclerViewAdapter.OnTagItemClickListener{
 
@@ -70,24 +72,7 @@ public class MainActivity extends AppCompatActivity implements ProductsRecyclerV
                     .commit();
         }
 
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                item.setChecked(true);
-                mDrawerLayout.closeDrawers();
-                switch(item.getItemId()){
-                    case(R.id.menu_drawer_all_products):
-                        mFragmentManager.beginTransaction().replace(R.id.fragment_container, ProductFragment.newInstance()).commit();
-                        return true;
-
-                    case(R.id.menu_drawer_tags):
-                        mFragmentManager.beginTransaction().replace(R.id.fragment_container, TagsFragment.newInstance()).commit();
-                        return true;
-                }
-
-                return true;
-            }
-        });
+        navigationView.setNavigationItemSelectedListener(this);
 
         handleIntent(getIntent());
     }
@@ -225,4 +210,20 @@ public class MainActivity extends AppCompatActivity implements ProductsRecyclerV
     }
 
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        item.setChecked(true);
+        mDrawerLayout.closeDrawers();
+        switch(item.getItemId()){
+            case(R.id.menu_drawer_all_products):
+                mFragmentManager.beginTransaction().replace(R.id.fragment_container, ProductFragment.newInstance()).commit();
+                return true;
+
+            case(R.id.menu_drawer_tags):
+                mFragmentManager.beginTransaction().replace(R.id.fragment_container, TagsFragment.newInstance()).commit();
+                return true;
+        }
+
+        return true;
+    }
 }
