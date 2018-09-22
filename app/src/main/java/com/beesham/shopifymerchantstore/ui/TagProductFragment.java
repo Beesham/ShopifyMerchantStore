@@ -3,6 +3,7 @@ package com.beesham.shopifymerchantstore.ui;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -46,6 +47,7 @@ public class TagProductFragment extends Fragment implements LoaderManager.Loader
         TagProductFragment fragment = new TagProductFragment();
         Bundle args = new Bundle();
         args.putString(TAG_KEY, tag);
+        Log.d(LOG_TAG, "tag being queried: " + tag);
         fragment.setArguments(args);
         return fragment;
     }
@@ -69,7 +71,7 @@ public class TagProductFragment extends Fragment implements LoaderManager.Loader
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tag_product, container, false);
@@ -86,23 +88,28 @@ public class TagProductFragment extends Fragment implements LoaderManager.Loader
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        return new CursorLoader(
-                getContext(),
-                ProductProvider.Variant.CONTENT_URI_VARIANT_JOIN,
-                new String[] {
-                        "variant." + Columns.ProductColumns.PRODUCT_ID,
-                        "variant." + Columns.ProductColumns.TITLE,
-                        "SUM(variant." + Columns.VariantColumns.INVENTORY_QUANTITY + ") as total_inventory",
-                        "product." + Columns.ProductColumns.IMAGE_URL},
-                "product.tags like ?",
-                new String[] {"%" + mSelectedTag + "%"},
-                null
-        );
+
+        switch (id) {
+            case (TAG_PRODUCT_LOADER):
+                return new CursorLoader(
+                        getContext(),
+                        ProductProvider.Variant.CONTENT_URI_VARIANT_JOIN,
+                        new String[]{
+                                "variant." + Columns.ProductColumns.PRODUCT_ID,
+                                "product." + Columns.ProductColumns.TITLE,
+                                "SUM(variant." + Columns.VariantColumns.INVENTORY_QUANTITY + ") as total_inventory",
+                                "product." + Columns.ProductColumns.IMAGE_URL},
+                        "product.tags like ?",
+                        new String[]{"%" + mSelectedTag + "%"},
+                        null
+                );
+
+            default: return null;
+        }
     }
 
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-        Log.d(LOG_TAG, "cursor count: " + data.getCount());
         mViewAdapter.swapCursor(data);
     }
 

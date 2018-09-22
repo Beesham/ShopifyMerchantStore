@@ -1,6 +1,11 @@
 package com.beesham.shopifymerchantstore.data;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+
 import net.simonvt.schematic.annotation.Database;
+import net.simonvt.schematic.annotation.IfNotExists;
+import net.simonvt.schematic.annotation.OnCreate;
 import net.simonvt.schematic.annotation.Table;
 
 /**
@@ -11,8 +16,8 @@ import net.simonvt.schematic.annotation.Table;
 public class ProductDatabase {
     public static final int VERSION = 1;
 
-    @Table(Columns.ProductColumns.class) public static final String PRODUCT = "product";
-    @Table(Columns.VariantColumns.class) public static final String VARIANT = "variant";
-    @Table(Columns.OptionColumns.class) public static final String OPTION = "option";
+    @Table(Columns.ProductColumns.class) @IfNotExists public static final String PRODUCT = "product";
+    @Table(Columns.VariantColumns.class) @IfNotExists public static final String VARIANT = "variant";
+    @Table(Columns.OptionColumns.class) @IfNotExists public static final String OPTION = "option";
 
 }

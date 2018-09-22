@@ -20,7 +20,7 @@ public class Columns {
         public static final String _ID = "_id";
 
         @DataType(DataType.Type.INTEGER)
-        @Unique(onConflict = ConflictResolutionType.IGNORE)
+        @Unique(onConflict = ConflictResolutionType.REPLACE)
         @NotNull
         public static final String PRODUCT_ID = "product_id";
 
@@ -51,6 +51,7 @@ public class Columns {
         public static final String _ID = "_id";
 
         @DataType(DataType.Type.INTEGER)
+        @Unique(onConflict = ConflictResolutionType.REPLACE)
         @NotNull
         public static final String VARIANT_ID = "variant_id";
 
