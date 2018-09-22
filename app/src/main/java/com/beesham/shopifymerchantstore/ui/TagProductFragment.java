@@ -36,7 +36,7 @@ public class TagProductFragment extends Fragment implements LoaderManager.Loader
     private static final int TAG_PRODUCT_LOADER = 3;
 
     private String mSelectedTag;
-    private static final String TAG_KEY = "param1";
+    private static final String TAG_KEY = "tag_key";
 
     public TagProductFragment() {
         // Required empty public constructor
@@ -45,7 +45,7 @@ public class TagProductFragment extends Fragment implements LoaderManager.Loader
     public static TagProductFragment newInstance(String tag) {
         TagProductFragment fragment = new TagProductFragment();
         Bundle args = new Bundle();
-        args.putString(TAG_KEY, "Concrete");
+        args.putString(TAG_KEY, tag);
         fragment.setArguments(args);
         return fragment;
     }
@@ -92,7 +92,7 @@ public class TagProductFragment extends Fragment implements LoaderManager.Loader
                 new String[] {
                         "variant." + Columns.ProductColumns.PRODUCT_ID,
                         "variant." + Columns.ProductColumns.TITLE,
-                        "SUM(variant." + Columns.VariantColumns.INVENTORY_QUANTITY + ")",
+                        "SUM(variant." + Columns.VariantColumns.INVENTORY_QUANTITY + ") as total_inventory",
                         "product." + Columns.ProductColumns.IMAGE_URL},
                 "product.tags like ?",
                 new String[] {"%" + mSelectedTag + "%"},

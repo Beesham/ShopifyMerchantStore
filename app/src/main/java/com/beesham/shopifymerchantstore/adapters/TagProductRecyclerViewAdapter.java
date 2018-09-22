@@ -77,7 +77,7 @@ public class TagProductRecyclerViewAdapter extends RecyclerView.Adapter<TagProdu
                 .into(holder.mImageView);
 
         holder.mTitleView.setText(mCursor.getString(mCursor.getColumnIndex(Columns.ProductColumns.TITLE)));
-        //holder.mtotalAvailableProductView.setText(mCursor.getString(mCursor.getColumnIndex(Columns.ProductColumns.DESCRIPTION)));
+        holder.mTotalAvailableProductView.setText(mCursor.getString(mCursor.getColumnIndex("total_inventory")));
     }
 
     @Override
