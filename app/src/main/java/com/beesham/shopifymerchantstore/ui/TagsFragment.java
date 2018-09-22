@@ -61,7 +61,11 @@ public class TagsFragment extends Fragment implements LoaderManager.LoaderCallba
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getActivity().getSupportLoaderManager().initLoader(2, null, this);
+        if(getArguments() == null) {
+            getActivity().getSupportLoaderManager().initLoader(2, null, this);
+        } else {
+            getActivity().getSupportLoaderManager().restartLoader(2, null, this);
+        }
     }
 
     @Override
@@ -86,6 +90,12 @@ public class TagsFragment extends Fragment implements LoaderManager.LoaderCallba
         if (context instanceof OnListFragmentInteractionListener) {
             mListener = (OnListFragmentInteractionListener) context;
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().getSupportLoaderManager().restartLoader(2, null, this);
     }
 
     @Override
