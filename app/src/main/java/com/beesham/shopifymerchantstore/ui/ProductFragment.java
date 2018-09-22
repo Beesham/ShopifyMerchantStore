@@ -140,7 +140,7 @@ public class ProductFragment extends Fragment implements LoaderManager.LoaderCal
                             getContext(),
                             ProductProvider.Product.CONTENT_URI,
                             projections,
-                            "title like ?",
+                            Columns.ProductColumns.TITLE + " like ?",
                             new String[]{"%" + mSearchQuery + "%"},
                             null
                     );
@@ -149,7 +149,7 @@ public class ProductFragment extends Fragment implements LoaderManager.LoaderCal
                             getContext(),
                             ProductProvider.Product.CONTENT_URI,
                             projections,
-                            "vendor like ?",
+                            Columns.ProductColumns.VENDOR + " like ?",
                             new String[]{"%" + mSearchQuery + "%"},
                             null
                     );
@@ -158,8 +158,8 @@ public class ProductFragment extends Fragment implements LoaderManager.LoaderCal
                             getContext(),
                             ProductProvider.Product.CONTENT_URI,
                             projections,
-                            "product_type like ?",
-                            new String[]{mSearchQuery},
+                            Columns.ProductColumns.PRODUCT_TYPE + " like ?",
+                            new String[]{"%" + mSearchQuery + "%"},
                             null
                     );
                 }
