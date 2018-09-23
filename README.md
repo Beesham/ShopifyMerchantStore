@@ -7,14 +7,14 @@ an internship application at Shopify.
 
 ## Demo
 
-Demo of working application [HERE](https://drive.google.com/open?id=1lSlpIKRpdchV-jvCyrw1gTs6YZidjJDu)
-
+Demo of working application [HERE](https://drive.google.com/file/d/1pggZyzZELsWckd4-Ja0FmiLlq1A0sdAG/view?usp=sharing)
 ## Known Bugs/Limitations/Features(Depending on your point of view)
 
 * No up navigation as all screens are implemented as fragments hosted by a single activity
 * Searching for an item will replace the existing fragment, thus, when the back button is pressed, the previous fragment is popped
 e.g if 2 searches are performed in continuity the back button will pop the 1st search's results.
 * Can't search for all 3 field at once when searching for an item
+* Navigating from Details to Tags then pressing back button will show All Products list on top of tags list
 
 ## Key Concepts applied
 
@@ -24,9 +24,9 @@ e.g if 2 searches are performed in continuity the back button will pop the 1st s
 
 ## Pre-requisites
 
-* Android SDK v26
-* Android Build Tools v26.0.2
-* Android Support Repository v26.1.0
+* Android SDK v27
+* Android Build Tools v3.1.4
+* Android Support Repository v27.1.1
 
 ## Getting Started
 
@@ -41,6 +41,7 @@ The key is placed in `gradle.properties` file
 * OkHttp/Retrofit2
 * Picasso
 * Simonvt Schematic Content Provider
+* Espresso for Implementation Tests
 
 ## License
 
