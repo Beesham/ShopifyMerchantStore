@@ -96,6 +96,7 @@ public class ProductFragment extends Fragment implements LoaderManager.LoaderCal
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mAdapter);
+        getActivity().setTitle(R.string.fragment_all_products);
 
         return view;
     }

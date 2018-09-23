@@ -69,7 +69,6 @@ public class TagsFragment extends Fragment implements LoaderManager.LoaderCallba
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tags_list, container, false);
-
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
@@ -77,6 +76,8 @@ public class TagsFragment extends Fragment implements LoaderManager.LoaderCallba
             mTagsRecyclerViewAdapter = new TagsRecyclerViewAdapter(mListener, getContext());
             mRecyclerView.setAdapter(mTagsRecyclerViewAdapter);
         }
+
+        getActivity().setTitle(R.string.fragment_tags);
         return view;
     }
 

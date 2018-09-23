@@ -82,6 +82,8 @@ public class TagProductFragment extends Fragment implements LoaderManager.Loader
             mViewAdapter = new TagProductRecyclerViewAdapter(getContext());
             mRecyclerView.setAdapter(mViewAdapter);
         }
+
+        getActivity().setTitle(mSelectedTag);
         return view;
     }
 

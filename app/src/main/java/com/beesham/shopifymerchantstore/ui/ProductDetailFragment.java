@@ -99,6 +99,8 @@ public class ProductDetailFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mAdapter);
 
+        getActivity().setTitle(R.string.fragment_product_details);
+
         // Inflate the layout for this fragment
         return view;
     }
